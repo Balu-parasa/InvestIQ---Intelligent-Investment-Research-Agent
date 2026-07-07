@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowUpRight, ArrowDownRight, Minus } from 'lucide-react';
+import { ArrowUpRight, ArrowDownRight } from 'lucide-react';
 
 export default function FinancialComparisonTable({ company1, company2 }) {
   if (!company1 || !company2) return null;
@@ -27,7 +27,6 @@ export default function FinancialComparisonTable({ company1, company2 }) {
     if (val === null || val === undefined || val === 'N/A') return 'N/A';
     const num = Number(val);
     if (isNaN(num)) return String(val);
-    // If decimal (e.g. 0.125), convert to percentage. Otherwise if like 12.5, keep it.
     const pct = Math.abs(num) < 1 ? num * 100 : num;
     const sign = pct > 0 ? '+' : '';
     return `${sign}${pct.toFixed(2)}%`;
@@ -82,11 +81,9 @@ export default function FinancialComparisonTable({ company1, company2 }) {
       case 'peRatio':
         if (isNaN(n1)) return 2;
         if (isNaN(n2)) return 1;
-        // Positive PE ratios: lower is better. Negative is worse than positive.
         if (n1 > 0 && n2 > 0) return n1 < n2 ? 1 : (n2 < n1 ? 2 : 0);
         if (n1 > 0 && n2 <= 0) return 1;
         if (n2 > 0 && n1 <= 0) return 2;
-        // Both negative: less negative (closer to zero) is better.
         return n1 > n2 ? 1 : (n2 > n1 ? 2 : 0);
 
       case 'riskLevel':
@@ -122,71 +119,66 @@ export default function FinancialComparisonTable({ company1, company2 }) {
   });
 
   return (
-    <div className="glass-card rounded-2xl overflow-hidden border border-white/5">
-      <div className="p-5 border-b border-white/5 bg-white/[0.01]">
-        <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest">
+    <div className="dashboard-card overflow-hidden">
+      <div className="p-5 border-b border-border-base">
+        <h3 className="text-xs font-bold text-text-secondary uppercase tracking-widest">
           Financial & Metric Comparison
         </h3>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="border-b border-white/5 bg-dark-900/40">
-              <th className="p-4 text-xs font-bold text-slate-400 uppercase tracking-wider">Financial Indicator</th>
-              <th className="p-4 text-xs font-bold text-brand-purple uppercase tracking-wider text-right">
-                {c1.name} <span className="text-[10px] text-slate-500 ml-1">({c1.symbol})</span>
+            <tr className="border-b border-border-base bg-bg-base/50">
+              <th className="p-4 text-[10px] font-bold text-text-secondary uppercase tracking-wider">Financial Indicator</th>
+              <th className="p-4 text-[10px] font-bold text-brand-blue uppercase tracking-wider text-right">
+                {c1.name} <span className="text-[9px] text-text-secondary ml-1">({c1.symbol})</span>
               </th>
-              <th className="p-4 text-xs font-bold text-brand-blue uppercase tracking-wider text-right">
-                {c2.name} <span className="text-[10px] text-slate-500 ml-1">({c2.symbol})</span>
+              <th className="p-4 text-[10px] font-bold text-brand-blue uppercase tracking-wider text-right">
+                {c2.name} <span className="text-[9px] text-text-secondary ml-1">({c2.symbol})</span>
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-white/5">
+          <tbody className="divide-y divide-border-base">
             {rows.map((row) => {
               const isC1Stronger = row.stronger === 1;
               const isC2Stronger = row.stronger === 2;
 
-              // Cell color indicators
               const getCellStyles = (isStronger, value, rowKey) => {
                 const lowerVal = String(value).toLowerCase();
                 const isNegative = lowerVal.startsWith('-') || lowerVal.includes('decline') || lowerVal.includes('pass');
-                const isPositive = lowerVal.includes('+') || lowerVal.includes('invest') || lowerVal.includes('low');
 
                 if (isStronger) {
-                  return 'text-emerald-400 bg-emerald-500/5 font-semibold';
+                  return 'text-brand-success bg-brand-success/5 font-semibold';
                 }
 
-                // If negative growth or negative net income, color it red even if it's not the stronger one
                 if (isNegative && (rowKey === 'netIncome' || rowKey === 'revenueGrowth' || rowKey === 'recommendation')) {
-                  return 'text-rose-400/80';
+                  return 'text-brand-danger/80';
                 }
 
-                return 'text-slate-300';
+                return 'text-text-primary';
               };
 
-              // Indicators (up/down arrow/minus) for visually strong elements
               const renderIndicator = (isStronger, value, rowKey) => {
                 const lowerVal = String(value).toLowerCase();
                 const isNegative = lowerVal.startsWith('-');
                 
                 if (isStronger) {
                   if (rowKey === 'peRatio' || rowKey === 'riskLevel') {
-                    // Lower risk or PE is stronger, meaning it went down
-                    return <ArrowDownRight className="w-3.5 h-3.5 inline mr-1 text-emerald-400" />;
+                    return <ArrowDownRight className="w-3.5 h-3.5 inline mr-1 text-brand-success" />;
                   }
-                  return <ArrowUpRight className="w-3.5 h-3.5 inline mr-1 text-emerald-400" />;
+                  return <ArrowUpRight className="w-3.5 h-3.5 inline mr-1 text-brand-success" />;
                 }
                 
                 if (isNegative && (rowKey === 'netIncome' || rowKey === 'revenueGrowth')) {
-                  return <ArrowDownRight className="w-3.5 h-3.5 inline mr-1 text-rose-400/80" />;
+                  return <ArrowDownRight className="w-3.5 h-3.5 inline mr-1 text-brand-danger/80" />;
                 }
 
                 return null;
               };
 
               return (
-                <tr key={row.key} className="hover:bg-white/[0.01] transition-colors">
-                  <td className="p-4 text-xs font-semibold text-slate-400">{row.label}</td>
+                <tr key={row.key} className="hover:bg-bg-base/30 transition-colors">
+                  <td className="p-4 text-xs font-semibold text-text-secondary">{row.label}</td>
                   <td className={`p-4 text-xs text-right ${getCellStyles(isC1Stronger, row.display1, row.key)}`}>
                     {renderIndicator(isC1Stronger, row.display1, row.key)}
                     {row.display1}

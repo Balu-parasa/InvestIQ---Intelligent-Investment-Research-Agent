@@ -161,43 +161,40 @@ export default function App() {
 
   return (
     <div className="min-h-screen relative font-sans">
-      {/* Decorative Radial Background */}
-      <div className="radial-bg" />
-
       {/* Header / Navbar */}
-      <header className="border-b border-white/5 bg-dark-950/40 backdrop-blur-md sticky top-0 z-50 transition-all duration-300">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
+      <header className="border-b border-border-base bg-card-base sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 py-3 flex items-center justify-between">
           <div className="flex items-center gap-6 md:gap-12">
             <div 
               onClick={handleLogoClick} 
               className="flex items-center gap-2 cursor-pointer group shrink-0"
             >
-              <div className="p-1.5 rounded-lg bg-gradient-to-tr from-brand-purple to-brand-blue group-hover:scale-105 transition-transform duration-200">
-                <BrainCircuit className="w-5 h-5 text-white" />
+              <div className="p-1.5 rounded-lg bg-brand-blue group-hover:bg-brand-blue/80 transition-colors duration-200">
+                <BrainCircuit className="w-4 h-4 text-white" />
               </div>
-              <h1 className="text-xl font-bold tracking-tight text-white">
-                Invest<span className="bg-gradient-to-r from-brand-blue to-brand-purple bg-clip-text text-transparent">IQ</span> AI
+              <h1 className="text-lg font-bold tracking-tight text-text-primary">
+                Invest<span className="text-brand-blue">IQ</span>
               </h1>
             </div>
 
             {/* Navigation links */}
-            <nav className="flex items-center gap-4">
+            <nav className="flex items-center gap-6">
               <button
                 onClick={() => { handleReset(); navigateTo('/'); }}
-                className={`text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
+                className={`text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer ${
                   currentPath === '/' 
-                    ? 'text-white border-b-2 border-brand-purple pb-1' 
-                    : 'text-slate-400 hover:text-white'
+                    ? 'text-brand-blue border-b-2 border-brand-blue pb-1' 
+                    : 'text-text-secondary hover:text-text-primary'
                 }`}
               >
                 Analyze
               </button>
               <button
                 onClick={() => navigateTo('/compare')}
-                className={`text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
+                className={`text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer ${
                   currentPath === '/compare' 
-                    ? 'text-white border-b-2 border-brand-purple pb-1' 
-                    : 'text-slate-400 hover:text-white'
+                    ? 'text-brand-blue border-b-2 border-brand-blue pb-1' 
+                    : 'text-text-secondary hover:text-text-primary'
                 }`}
               >
                 Compare Companies
@@ -208,7 +205,7 @@ export default function App() {
           {currentPath === '/' && activeView === 'RESULTS' && (
             <button
               onClick={handleReset}
-              className="flex items-center gap-2 px-4 py-2 text-xs font-semibold text-slate-400 hover:text-white border border-white/10 hover:border-brand-purple/40 hover:bg-white/5 rounded-xl transition-all"
+              className="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold text-text-secondary hover:text-text-primary border border-border-base hover:border-brand-blue/40 hover:bg-bg-base rounded-lg transition-all"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               New Research
@@ -221,15 +218,15 @@ export default function App() {
       <AnimatePresence>
         {error && (
           <motion.div
-            initial={{ opacity: 0, y: -50 }}
+            initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -50 }}
-            className="fixed top-20 inset-x-4 max-w-lg mx-auto z-[100] bg-rose-500/10 border border-rose-500/30 text-rose-300 p-4 rounded-2xl backdrop-blur-md shadow-2xl flex items-start gap-3"
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed top-16 inset-x-4 max-w-lg mx-auto z-[100] bg-card-base border border-brand-danger/30 text-text-primary p-4 rounded-xl shadow-lg flex items-start gap-3"
           >
-            <AlertTriangle className="w-5 h-5 text-rose-400 shrink-0 mt-0.5" />
+            <AlertTriangle className="w-5 h-5 text-brand-danger shrink-0 mt-0.5" />
             <div className="space-y-1">
-              <h4 className="text-sm font-bold">Research Interrupted</h4>
-              <p className="text-xs text-rose-300/80 leading-relaxed">{error}</p>
+              <h4 className="text-sm font-semibold text-text-primary">Research Interrupted</h4>
+              <p className="text-xs text-text-secondary leading-relaxed">{error}</p>
             </div>
           </motion.div>
         )}

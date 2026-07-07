@@ -3,11 +3,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Loader2, CheckCircle2 } from 'lucide-react';
 
 const STEPS = [
-  { id: 1, text: 'Fetching company profile', range: [0, 20] },
-  { id: 2, text: 'Fetching financial data', range: [21, 40] },
-  { id: 3, text: 'Reading latest news', range: [41, 60] },
-  { id: 4, text: 'AI analyzing company', range: [61, 85] },
-  { id: 5, text: 'Preparing recommendation', range: [86, 100] }
+  { id: 1, text: 'Fetching company profile...', range: [0, 20] },
+  { id: 2, text: 'Reading financial statements...', range: [21, 40] },
+  { id: 3, text: 'Collecting latest news...', range: [41, 60] },
+  { id: 4, text: 'Generating AI investment report...', range: [61, 85] },
+  { id: 5, text: 'Preparing recommendation...', range: [86, 100] }
 ];
 
 export default function Loading({ isDataReady, onFinished }) {
@@ -39,10 +39,9 @@ export default function Loading({ isDataReady, onFinished }) {
             return Math.min(nextProgress, 100);
           } else {
             clearInterval(interval);
-            // Slight delay before calling complete to show 100%
             setTimeout(() => {
               onFinished();
-            }, 500);
+            }, 300);
             return 100;
           }
         });
@@ -62,35 +61,30 @@ export default function Loading({ isDataReady, onFinished }) {
 
   // Math for SVG ring
   const radius = 60;
-  const stroke = 6;
+  const stroke = 4;
   const normalizedRadius = radius - stroke * 2;
   const circumference = normalizedRadius * 2 * Math.PI;
   const strokeDashoffset = circumference - (progress / 100) * circumference;
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[75vh] px-4">
-      <div className="absolute top-[30%] w-[350px] h-[350px] rounded-full bg-brand-blue/5 blur-[90px] pointer-events-none" />
-      
-      <div className="max-w-md w-full glass-card rounded-2xl p-8 relative overflow-hidden flex flex-col items-center space-y-8">
+    <div className="flex flex-col items-center justify-center py-20 px-4">
+      <div className="max-w-md w-full dashboard-card p-8 flex flex-col items-center space-y-8">
         
-        {/* Glow border overlay */}
-        <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-brand-blue to-transparent" />
-
-        {/* Circular Progress Ring */}
-        <div className="relative flex items-center justify-center w-36 h-36">
+        {/* Minimal Circular Progress */}
+        <div className="relative flex items-center justify-center w-32 h-32">
           <svg className="w-full h-full transform -rotate-90">
             {/* Background Ring */}
             <circle
-              stroke="rgba(255,255,255,0.03)"
+              stroke="#1F2937"
               fill="transparent"
               strokeWidth={stroke}
               r={normalizedRadius}
               cx={radius + stroke}
               cy={radius + stroke}
             />
-            {/* Animated Gradient Ring */}
+            {/* Animated Ring */}
             <motion.circle
-              stroke="url(#progressGradient)"
+              stroke="#3B82F6"
               fill="transparent"
               strokeWidth={stroke}
               strokeDasharray={circumference + ' ' + circumference}
@@ -101,39 +95,32 @@ export default function Loading({ isDataReady, onFinished }) {
               cy={radius + stroke}
               className="progress-ring__circle"
             />
-            {/* Gradients */}
-            <defs>
-              <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#3b82f6" />
-                <stop offset="100%" stopColor="#7c3aed" />
-              </linearGradient>
-            </defs>
           </svg>
           <div className="absolute flex flex-col items-center">
-            <span className="text-3xl font-extrabold text-white font-sans">{Math.round(progress)}%</span>
-            <span className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold mt-0.5">Analysing</span>
+            <span className="text-2xl font-bold text-text-primary">{Math.round(progress)}%</span>
+            <span className="text-[9px] text-text-secondary uppercase tracking-wider font-semibold mt-0.5">Progress</span>
           </div>
         </div>
 
         {/* Dynamic Status Title */}
-        <div className="text-center w-full min-h-[28px] overflow-hidden">
+        <div className="text-center w-full min-h-[24px] overflow-hidden">
           <AnimatePresence mode="wait">
             <motion.p
               key={activeStep}
-              initial={{ y: 15, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: -15, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="text-slate-300 font-medium tracking-wide flex items-center justify-center gap-2"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+              className="text-text-primary text-sm font-medium tracking-wide flex items-center justify-center gap-2"
             >
               <Loader2 className="w-4 h-4 text-brand-blue animate-spin" />
-              {STEPS[activeStep - 1]?.text}...
+              {STEPS[activeStep - 1]?.text}
             </motion.p>
           </AnimatePresence>
         </div>
 
         {/* Step-by-Step Checklist */}
-        <div className="w-full border-t border-white/5 pt-6 space-y-4">
+        <div className="w-full border-t border-border-base pt-6 space-y-3.5">
           {STEPS.map((step) => {
             const isCompleted = progress > step.range[1];
             const isActive = progress >= step.range[0] && progress <= step.range[1];
@@ -141,37 +128,37 @@ export default function Loading({ isDataReady, onFinished }) {
             return (
               <div 
                 key={step.id} 
-                className={`flex items-center justify-between text-sm transition-all duration-300 ${
+                className={`flex items-center justify-between text-xs transition-colors duration-200 ${
                   isCompleted 
-                    ? 'text-slate-300 font-medium' 
+                    ? 'text-text-primary font-medium' 
                     : isActive 
-                      ? 'text-brand-purple font-semibold' 
-                      : 'text-slate-600'
+                      ? 'text-brand-blue font-semibold' 
+                      : 'text-text-secondary/60'
                 }`}
               >
                 <div className="flex items-center gap-3">
                   {isCompleted ? (
                     <motion.div
-                      initial={{ scale: 0 }}
+                      initial={{ scale: 0.8 }}
                       animate={{ scale: 1 }}
-                      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                      transition={{ duration: 0.15 }}
                     >
-                      <CheckCircle2 className="w-4 h-4 text-emerald-400 drop-shadow-[0_0_4px_rgba(52,211,153,0.3)]" />
+                      <CheckCircle2 className="w-4 h-4 text-brand-success" />
                     </motion.div>
                   ) : isActive ? (
-                    <Loader2 className="w-4 h-4 text-brand-purple animate-spin" />
+                    <Loader2 className="w-4 h-4 text-brand-blue animate-spin" />
                   ) : (
-                    <div className="w-4 h-4 rounded-full border border-slate-700 bg-slate-900/50" />
+                    <div className="w-4 h-4 rounded-full border border-border-base bg-bg-base" />
                   )}
-                  <span>{step.text}</span>
+                  <span>{step.text.replace('...', '')}</span>
                 </div>
                 <div>
                   {isCompleted ? (
-                    <span className="text-xs text-emerald-400 font-semibold bg-emerald-500/10 px-2 py-0.5 rounded">Done</span>
+                    <span className="text-[10px] text-brand-success font-semibold px-2 py-0.5 rounded bg-brand-success/10">Done</span>
                   ) : isActive ? (
-                    <span className="text-xs text-brand-purple font-semibold animate-pulse">Running</span>
+                    <span className="text-[10px] text-brand-blue font-semibold animate-pulse">Running</span>
                   ) : (
-                    <span className="text-xs text-slate-700">Pending</span>
+                    <span className="text-[10px] text-text-secondary/40">Pending</span>
                   )}
                 </div>
               </div>

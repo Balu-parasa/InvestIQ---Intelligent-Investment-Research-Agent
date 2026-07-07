@@ -49,7 +49,7 @@ export default function CompareCompaniesPage() {
   };
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto pb-12">
+    <div className="space-y-6 max-w-7xl mx-auto pb-12">
       {/* Title Header */}
       <ComparisonHeader />
 
@@ -65,14 +65,14 @@ export default function CompareCompaniesPage() {
 
       {/* Error state */}
       {error && !isLoading && (
-        <div className="pt-4">
+        <div className="pt-2">
           <ComparisonError error={error} />
         </div>
       )}
 
       {/* Loading state skeleton panels */}
       {isLoading && (
-        <div className="pt-4">
+        <div className="pt-2">
           <ComparisonSkeleton />
         </div>
       )}
@@ -80,11 +80,11 @@ export default function CompareCompaniesPage() {
       {/* Empty State */}
       {!isLoading && !comparisonData && !error && (
         <div className="pt-4">
-          <div className="glass-card rounded-2xl p-8 md:p-12 text-center max-w-2xl mx-auto border border-white/5 space-y-4">
-            <div className="w-12 h-12 rounded-2xl bg-brand-purple/10 flex items-center justify-center text-brand-purple mx-auto">
-              <BrainCircuit className="w-6 h-6" />
+          <div className="dashboard-card p-8 md:p-12 text-center max-w-xl mx-auto space-y-4">
+            <div className="w-10 h-10 rounded bg-brand-blue/10 flex items-center justify-center text-brand-blue mx-auto">
+              <BrainCircuit className="w-5 h-5" />
             </div>
-            <p className="text-slate-300 text-sm md:text-base font-light">
+            <p className="text-text-secondary text-sm">
               Compare two publicly listed companies to receive an AI-powered investment comparison.
             </p>
           </div>
@@ -93,7 +93,7 @@ export default function CompareCompaniesPage() {
 
       {/* Success comparison results */}
       {!isLoading && comparisonData && (
-        <div className="space-y-8 pt-4 animate-fade-in">
+        <div className="space-y-6 pt-2 animate-fade-in">
           {/* Side-by-side Overview Cards */}
           <CompanyComparisonCard
             company1={comparisonData.company1}
