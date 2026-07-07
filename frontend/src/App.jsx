@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, BrainCircuit, RotateCcw, AlertTriangle } from 'lucide-react';
 import Hero from './components/Hero';
@@ -9,6 +9,7 @@ import News from './components/News';
 import SWOT from './components/SWOT';
 import Recommendation from './components/Recommendation';
 import Sources from './components/Sources';
+import CompareCompaniesPage from './components/CompareCompaniesPage';
 
 export default function App() {
   const [activeView, setActiveView] = useState('SEARCH'); // 'SEARCH' | 'LOADING' | 'RESULTS'
@@ -16,6 +17,26 @@ export default function App() {
   const [isDataReady, setIsDataReady] = useState(false);
   const [analysisData, setAnalysisData] = useState(null);
   const [error, setError] = useState(null);
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
+
+  // Sync route on popstate (browser back/forward button clicks)
+  useEffect(() => {
+    const handlePopState = () => {
+      setCurrentPath(window.location.pathname);
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const navigateTo = (path) => {
+    window.history.pushState(null, '', path);
+    setCurrentPath(path);
+  };
+
+  const handleLogoClick = () => {
+    handleReset();
+    navigateTo('/');
+  };
 
   // Trigger analysis pipeline
   const startAnalysis = async (query) => {
@@ -146,19 +167,45 @@ export default function App() {
       {/* Header / Navbar */}
       <header className="border-b border-white/5 bg-dark-950/40 backdrop-blur-md sticky top-0 z-50 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
-          <div 
-            onClick={handleReset} 
-            className="flex items-center gap-2 cursor-pointer group"
-          >
-            <div className="p-1.5 rounded-lg bg-gradient-to-tr from-brand-purple to-brand-blue group-hover:scale-105 transition-transform duration-200">
-              <BrainCircuit className="w-5 h-5 text-white" />
+          <div className="flex items-center gap-6 md:gap-12">
+            <div 
+              onClick={handleLogoClick} 
+              className="flex items-center gap-2 cursor-pointer group shrink-0"
+            >
+              <div className="p-1.5 rounded-lg bg-gradient-to-tr from-brand-purple to-brand-blue group-hover:scale-105 transition-transform duration-200">
+                <BrainCircuit className="w-5 h-5 text-white" />
+              </div>
+              <h1 className="text-xl font-bold tracking-tight text-white">
+                Invest<span className="bg-gradient-to-r from-brand-blue to-brand-purple bg-clip-text text-transparent">IQ</span> AI
+              </h1>
             </div>
-            <h1 className="text-xl font-bold tracking-tight text-white">
-              Invest<span className="bg-gradient-to-r from-brand-blue to-brand-purple bg-clip-text text-transparent">IQ</span> AI
-            </h1>
+
+            {/* Navigation links */}
+            <nav className="flex items-center gap-4">
+              <button
+                onClick={() => { handleReset(); navigateTo('/'); }}
+                className={`text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
+                  currentPath === '/' 
+                    ? 'text-white border-b-2 border-brand-purple pb-1' 
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                Analyze
+              </button>
+              <button
+                onClick={() => navigateTo('/compare')}
+                className={`text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
+                  currentPath === '/compare' 
+                    ? 'text-white border-b-2 border-brand-purple pb-1' 
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                Compare Companies
+              </button>
+            </nav>
           </div>
 
-          {activeView === 'RESULTS' && (
+          {currentPath === '/' && activeView === 'RESULTS' && (
             <button
               onClick={handleReset}
               className="flex items-center gap-2 px-4 py-2 text-xs font-semibold text-slate-400 hover:text-white border border-white/10 hover:border-brand-purple/40 hover:bg-white/5 rounded-xl transition-all"
@@ -191,83 +238,95 @@ export default function App() {
       {/* Main Content Area */}
       <main className="max-w-7xl mx-auto px-4 md:px-8 py-8">
         <AnimatePresence mode="wait">
-          
-          {/* SEARCH VIEW */}
-          {activeView === 'SEARCH' && (
+          {currentPath === '/compare' ? (
             <motion.div
-              key="search"
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.98 }}
-              transition={{ duration: 0.4 }}
-            >
-              <Hero onSearch={startAnalysis} />
-            </motion.div>
-          )}
-
-          {/* LOADING VIEW */}
-          {activeView === 'LOADING' && (
-            <motion.div
-              key="loading"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+              key="compare"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.3 }}
             >
-              <Loading isDataReady={isDataReady} onFinished={handleLoadingFinished} />
+              <CompareCompaniesPage />
             </motion.div>
-          )}
+          ) : (
+            <React.Fragment key="dashboard">
+              {/* SEARCH VIEW */}
+              {activeView === 'SEARCH' && (
+                <motion.div
+                  key="search"
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <Hero onSearch={startAnalysis} />
+                </motion.div>
+              )}
 
-          {/* RESULTS VIEW */}
-          {activeView === 'RESULTS' && analysisData && (
-            <motion.div
-              key="results"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5, ease: 'easeOut' }}
-              className="space-y-6"
-            >
-              {/* Reset Search back button */}
-              <button 
-                onClick={handleReset} 
-                className="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-white transition-colors cursor-pointer group"
-              >
-                <ArrowLeft className="w-3.5 h-3.5 group-hover:translate-x-[-2px] transition-transform" />
-                Back to Dashboard Search
-              </button>
+              {/* LOADING VIEW */}
+              {activeView === 'LOADING' && (
+                <motion.div
+                  key="loading"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Loading isDataReady={isDataReady} onFinished={handleLoadingFinished} />
+                </motion.div>
+              )}
 
-              {/* Section 5: Main Opinion / Recommendation Callout */}
-              <Recommendation recommendation={analysisData.recommendation} />
+              {/* RESULTS VIEW */}
+              {activeView === 'RESULTS' && analysisData && (
+                <motion.div
+                  key="results"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.5, ease: 'easeOut' }}
+                  className="space-y-6"
+                >
+                  {/* Reset Search back button */}
+                  <button 
+                    onClick={handleReset} 
+                    className="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-white transition-colors cursor-pointer group"
+                  >
+                    <ArrowLeft className="w-3.5 h-3.5 group-hover:translate-x-[-2px] transition-transform" />
+                    Back to Dashboard Search
+                  </button>
 
-              {/* Grid block for Overview and Financials */}
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {/* Section 1: Company Profile Info */}
-                <div className="lg:col-span-1">
-                  <Overview overview={analysisData.overview} />
-                </div>
-                {/* Section 2: Financial Grid Cards */}
-                <div className="lg:col-span-2">
-                  <div className="flex flex-col h-full justify-between gap-6">
-                    <div className="space-y-4">
-                      <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest">Financial Health Indicators</h3>
-                      <Financials financials={analysisData.financials} />
+                  {/* Section 5: Main Opinion / Recommendation Callout */}
+                  <Recommendation recommendation={analysisData.recommendation} />
+
+                  {/* Grid block for Overview and Financials */}
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    {/* Section 1: Company Profile Info */}
+                    <div className="lg:col-span-1">
+                      <Overview overview={analysisData.overview} />
                     </div>
-                    {/* Section 4: SWOT Details */}
-                    <SWOT swot={analysisData.swot} />
+                    {/* Section 2: Financial Grid Cards */}
+                    <div className="lg:col-span-2">
+                      <div className="flex flex-col h-full justify-between gap-6">
+                        <div className="space-y-4">
+                          <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest">Financial Health Indicators</h3>
+                          <Financials financials={analysisData.financials} />
+                        </div>
+                        {/* Section 4: SWOT Details */}
+                        <SWOT swot={analysisData.swot} />
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
 
-              {/* Section 3: Sentiment-categorized News */}
-              <News news={analysisData.news} />
+                  {/* Section 3: Sentiment-categorized News */}
+                  <News news={analysisData.news} />
 
-              {/* Section 6: Sources citations */}
-              <Sources sources={analysisData.sources} />
+                  {/* Section 6: Sources citations */}
+                  <Sources sources={analysisData.sources} />
 
-            </motion.div>
+                </motion.div>
+              )}
+            </React.Fragment>
           )}
-
         </AnimatePresence>
       </main>
     </div>

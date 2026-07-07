@@ -320,7 +320,149 @@ Remember: Output ONLY valid raw JSON.`;
   }
 }
 
+/**
+ * Performs LangChain AI comparison analysis between two public companies using Gemini API.
+ * @param {Object} company1Data - First company's compiled profile, financials, news, and analysis.
+ * @param {Object} company2Data - Second company's compiled profile, financials, news, and analysis.
+ * @returns {Promise<Object>} The comparative JSON analysis.
+ */
+async function compareCompanies(company1Data, company2Data) {
+  const apiKey = process.env.GEMINI_API_KEY;
+
+  if (!apiKey || apiKey === 'YOUR_GEMINI_API_KEY_HERE' || apiKey.trim() === '') {
+    throw new Error("GEMINI_API_KEY is not configured. Cannot perform comparison analysis.");
+  }
+
+  console.log(`Initializing Gemini model for LangChain comparison of: "${company1Data.company.name}" vs "${company2Data.company.name}"`);
+
+  const chatModel = new ChatGoogleGenerativeAI({
+    model: "gemini-2.5-flash",
+    apiKey: apiKey,
+    temperature: 0.2,
+    responseMimeType: "application/json"
+  });
+
+  const systemPrompt = `You are an elite AI Investment Research Analyst. Your task is to review and compare two analyzed public companies and output a professional, structured investment comparison report.
+  
+You MUST return ONLY a valid JSON object. Do not output any markdown code blocks (e.g. do not wrap in \`\`\`json), do not write any introductory or trailing text. The output must be directly parseable via JSON.parse().`;
+
+  const userPrompt = `
+Compare the following two investment targets:
+
+COMPANY 1:
+Name: ${company1Data.company.name}
+Symbol: ${company1Data.company.symbol}
+Industry: ${company1Data.company.industry}
+CEO: ${company1Data.company.ceo}
+Headquarters: ${company1Data.company.headquarters}
+Employees: ${company1Data.company.employees ? company1Data.company.employees.toLocaleString() : 'N/A'}
+Description: ${company1Data.company.description}
+
+FINANCIAL DATA:
+Revenue (TTM): $${company1Data.company.revenue ? company1Data.company.revenue.toLocaleString() : 'N/A'}
+Market Capitalization: $${company1Data.company.marketCap ? company1Data.company.marketCap.toLocaleString() : 'N/A'}
+Net Income: $${company1Data.financials.netIncome ? company1Data.financials.netIncome.toLocaleString() : 'N/A'}
+P/E Ratio: ${company1Data.financials.peRatio ? company1Data.financials.peRatio.toFixed(2) : 'N/A'}
+Revenue Growth (YoY): ${company1Data.financials.revenueGrowth ? (company1Data.financials.revenueGrowth * 100).toFixed(2) + '%' : 'N/A'}
+
+AI ANALYSIS:
+Recommendation: ${company1Data.analysis.recommendation}
+Confidence: ${company1Data.analysis.confidence}%
+Reasoning: ${company1Data.analysis.reasoning}
+Strengths:
+${(company1Data.analysis.strengths || []).join('\n')}
+Weaknesses:
+${(company1Data.analysis.weaknesses || []).join('\n')}
+Risks:
+${(company1Data.analysis.risks || []).join('\n')}
+
+========================================
+
+COMPANY 2:
+Name: ${company2Data.company.name}
+Symbol: ${company2Data.company.symbol}
+Industry: ${company2Data.company.industry}
+CEO: ${company2Data.company.ceo}
+Headquarters: ${company2Data.company.headquarters}
+Employees: ${company2Data.company.employees ? company2Data.company.employees.toLocaleString() : 'N/A'}
+Description: ${company2Data.company.description}
+
+FINANCIAL DATA:
+Revenue (TTM): $${company2Data.company.revenue ? company2Data.company.revenue.toLocaleString() : 'N/A'}
+Market Capitalization: $${company2Data.company.marketCap ? company2Data.company.marketCap.toLocaleString() : 'N/A'}
+Net Income: $${company2Data.financials.netIncome ? company2Data.financials.netIncome.toLocaleString() : 'N/A'}
+P/E Ratio: ${company2Data.financials.peRatio ? company2Data.financials.peRatio.toFixed(2) : 'N/A'}
+Revenue Growth (YoY): ${company2Data.financials.revenueGrowth ? (company2Data.financials.revenueGrowth * 100).toFixed(2) + '%' : 'N/A'}
+
+AI ANALYSIS:
+Recommendation: ${company2Data.analysis.recommendation}
+Confidence: ${company2Data.analysis.confidence}%
+Reasoning: ${company2Data.analysis.reasoning}
+Strengths:
+${(company2Data.analysis.strengths || []).join('\n')}
+Weaknesses:
+${(company2Data.analysis.weaknesses || []).join('\n')}
+Risks:
+${(company2Data.analysis.risks || []).join('\n')}
+
+Based on this data and individual analysis, perform a direct comparison. Determine:
+1. Which company is the better investment (winner name and winner symbol).
+2. A high-level executive summary of the comparison.
+3. The exact comparison reasoning (why the winner is chosen).
+4. Relational score out of 100 for each company (company1 vs company2).
+5. Generate strategic opportunities, overallScore (1-100), riskLevel ("Low", "Medium", or "High"), and recommended investmentHorizon ("Short-term", "Medium-term", or "Long-term") for both companies.
+
+Return exactly this JSON schema:
+{
+  "winner": "Full Name of Winner Company",
+  "winnerSymbol": "TICKER",
+  "summary": "A concise executive summary paragraph of the comparison.",
+  "reason": "A detailed explanation of why the winner was chosen over the other company.",
+  "comparisonScore": {
+    "company1": 85,
+    "company2": 72
+  },
+  "company1Details": {
+    "overallScore": 85,
+    "riskLevel": "Low",
+    "investmentHorizon": "Long-term",
+    "opportunities": [
+      "Opportunity 1 title: explanation...",
+      "Opportunity 2 title: explanation...",
+      "Opportunity 3 title: explanation..."
+    ]
+  },
+  "company2Details": {
+    "overallScore": 72,
+    "riskLevel": "High",
+    "investmentHorizon": "Medium-term",
+    "opportunities": [
+      "Opportunity 1 title: explanation...",
+      "Opportunity 2 title: explanation...",
+      "Opportunity 3 title: explanation..."
+    ]
+  }
+}
+`;
+
+  const messages = [
+    new SystemMessage(systemPrompt),
+    new HumanMessage(userPrompt)
+  ];
+
+  const response = await chatModel.invoke(messages);
+  let jsonText = response.text || response.content;
+
+  if (jsonText.includes("```")) {
+    jsonText = jsonText.replace(/```json/g, "").replace(/```/g, "").trim();
+  }
+
+  return JSON.parse(jsonText);
+}
+
 module.exports = {
   analyzeCompany,
-  fetchCompanyProfileFromAI
+  fetchCompanyProfileFromAI,
+  compareCompanies
 };
+
