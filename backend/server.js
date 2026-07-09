@@ -49,7 +49,9 @@ app.post('/api/analyze', async (req, res) => {
     let companyProfile;
     try {
 
+      console.log("STEP 1: Fetching Yahoo...");
       companyProfile = await getYahooWithRetry(queryCompany);
+      console.log("✅ Yahoo Success");
 
     } catch (yfError) {
 
@@ -68,7 +70,9 @@ app.post('/api/analyze', async (req, res) => {
     let companyNews;
     try {
 
+      console.log("STEP 2: Fetching News...");
       companyNews = await fetchCompanyNews(companyProfile.company.name);
+      console.log("✅ News Success");
 
     } catch (newsError) {
       throw new Error(`Failed to fetch latest news: ${newsError.message}`);
@@ -78,11 +82,13 @@ app.post('/api/analyze', async (req, res) => {
     let aiAnalysis;
     try {
 
+      console.log("STEP 3: AI Analysis...");
       aiAnalysis = await analyzeCompany(
         companyProfile.company,
         companyProfile.financials,
         companyNews
       );
+      console.log("✅ AI Success");
     } catch (aiError) {
       throw new Error(`Failed to run AI analysis: ${aiError.message}`);
     }
