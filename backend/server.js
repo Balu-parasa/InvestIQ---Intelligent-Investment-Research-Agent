@@ -100,6 +100,7 @@ app.post('/api/analyze', async (req, res) => {
   } catch (error) {
 
     // Return standard error payload
+    console.error("FULL ERROR:", error);
     return res.status(500).json({
       success: false,
       message: error.message || 'An error occurred during company analysis.'
@@ -203,7 +204,7 @@ app.post('/api/compare', async (req, res) => {
         message: error.message
       });
     }
-
+    console.error("FULL ERROR:", error);
     return res.status(500).json({
       success: false,
       message: error.message || 'An error occurred during company comparison.'
