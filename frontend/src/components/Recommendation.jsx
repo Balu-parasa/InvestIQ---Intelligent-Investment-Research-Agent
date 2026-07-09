@@ -3,9 +3,12 @@ import { motion } from 'framer-motion';
 import { ShieldCheck, ShieldAlert, Award, FileText } from 'lucide-react';
 
 export default function Recommendation({ recommendation }) {
-  const { decision, confidence, reasoning } = recommendation;
+  const { decision, confidence, reasoning, overallScore: propOverallScore } = recommendation;
   const isInvest = decision?.toUpperCase() === 'INVEST';
   const [animatedScore, setAnimatedScore] = useState(0);
+
+  // Use prop overallScore if available, otherwise fallback to confidence
+  const overallScore = propOverallScore || recommendation.overallScore || confidence || 75;
 
   // Animate confidence score count-up on load
   useEffect(() => {
@@ -27,37 +30,37 @@ export default function Recommendation({ recommendation }) {
     requestAnimationFrame(animate);
   }, [confidence]);
 
-  // SVG parameters for circular confidence gauge
-  const radius = 44;
-  const strokeWidth = 6;
+  // SVG parameters for circular confidence gauge (w-24 h-24, center 48, radius 36)
+  const radius = 36;
+  const strokeWidth = 5;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (confidence / 100) * circumference;
 
   return (
-    <div className={`dashboard-card p-6 md:p-8 ${
-      isInvest ? 'border-brand-success/20' : 'border-brand-danger/20'
-    }`}>
+    <div className={`dashboard-card p-6 md:p-8 border-t-4 ${
+      isInvest ? 'border-t-[#8B5CF6]' : 'border-t-[#EF4444]'
+    } shadow-[0_4px_12px_rgba(0,0,0,0.02)]`}>
       <div className="flex flex-col lg:flex-row items-stretch justify-between gap-8 relative">
         
         {/* Left Column: Decision Callout & Score */}
-        <div className="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left shrink-0">
+        <div className="flex flex-col sm:flex-row items-center gap-8 text-center sm:text-left shrink-0">
           
           {/* Circular SVG Gauge */}
-          <div className="relative w-28 h-28 flex items-center justify-center">
+          <div className="relative w-24 h-24 flex items-center justify-center shrink-0">
             <svg className="w-full h-full transform -rotate-90">
               <circle
-                cx="56"
-                cy="56"
+                cx="48"
+                cy="48"
                 r={radius}
-                stroke="#1F2937"
+                stroke="#E7E5E4"
                 strokeWidth={strokeWidth}
                 fill="transparent"
               />
               <motion.circle
-                cx="56"
-                cy="56"
+                cx="48"
+                cy="48"
                 r={radius}
-                stroke={isInvest ? '#22C55E' : '#EF4444'}
+                stroke={isInvest ? '#8B5CF6' : '#EF4444'}
                 strokeWidth={strokeWidth}
                 strokeDasharray={circumference}
                 initial={{ strokeDashoffset: circumference }}
@@ -68,39 +71,49 @@ export default function Recommendation({ recommendation }) {
               />
             </svg>
             <div className="absolute flex flex-col items-center">
-              <span className="text-xl font-bold text-text-primary">{animatedScore}%</span>
-              <span className="text-[8px] text-text-secondary uppercase tracking-wider font-semibold">Confidence</span>
+              <span className="text-lg font-bold text-text-primary">{animatedScore}%</span>
+              <span className="text-[7px] text-text-secondary uppercase tracking-wider font-bold">Confidence</span>
             </div>
+          </div>
+
+          {/* Large Overall Score Number */}
+          <div className="flex flex-col items-center justify-center shrink-0 px-2">
+            <span className="text-4xl font-extrabold tracking-tight text-text-primary">
+              {overallScore}<span className="text-text-secondary text-sm font-semibold">/100</span>
+            </span>
+            <span className="text-[9px] text-text-secondary uppercase tracking-widest font-bold mt-1">
+              Overall Score
+            </span>
           </div>
  
           {/* Decision text badges */}
-          <div className="space-y-1">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-bg-base border border-border-base text-[10px] text-text-secondary font-semibold uppercase tracking-wider">
-              <Award className="w-3 h-3 text-brand-blue" />
+          <div className="space-y-2 shrink-0">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#F8F7F4] border border-border-base text-[9px] text-text-secondary font-bold uppercase tracking-wider">
+              <Award className="w-3.5 h-3.5 text-[#8B5CF6]" />
               Agent Opinion
             </div>
             
-            <h3 className="text-[10px] font-semibold text-text-secondary uppercase tracking-widest block">
+            <h3 className="text-[9px] font-bold text-text-secondary uppercase tracking-widest block">
               Investment Recommendation
             </h3>
             
-            <h2 className={`text-3xl font-extrabold tracking-tight uppercase ${
-              isInvest ? 'text-brand-success' : 'text-brand-danger'
-            }`}>
-              {decision}
-            </h2>
+            <div className="pt-0.5">
+              <span className="bg-gradient-to-r from-[#8B5CF6] via-[#A855F7] to-[#EC4899] text-white text-xs px-3.5 py-1.5 rounded-lg font-bold uppercase tracking-wider shadow-sm">
+                {decision}
+              </span>
+            </div>
           </div>
         </div>
 
         {/* Right Column: Reasoning text box */}
-        <div className="flex-1 bg-bg-base border border-border-base rounded-xl p-5 flex flex-col justify-between space-y-3">
+        <div className="flex-1 bg-[#F8F7F4]/50 border border-border-base rounded-xl p-6 flex flex-col justify-between space-y-4 max-w-3xl">
           <div>
-            <div className="flex items-center gap-2 text-text-secondary mb-2">
-              <FileText className="w-3.5 h-3.5 text-brand-blue" />
-              <span className="text-[11px] font-bold uppercase tracking-wider">Analysis Reasoning Summary</span>
+            <div className="flex items-center gap-2 text-text-secondary mb-3">
+              <FileText className="w-3.5 h-3.5 text-[#8B5CF6]" />
+              <span className="text-[10px] font-bold uppercase tracking-wider">Investment Reasoning</span>
             </div>
             
-            <p className="text-sm text-text-primary leading-relaxed font-normal">
+            <p className="text-xs md:text-sm text-text-primary leading-[1.85] font-normal">
               {reasoning}
             </p>
           </div>
@@ -108,12 +121,12 @@ export default function Recommendation({ recommendation }) {
           <div className="flex items-center gap-2 pt-3 border-t border-border-base text-xs text-text-secondary">
             {isInvest ? (
               <>
-                <ShieldCheck className="w-4 h-4 text-brand-success shrink-0" />
+                <ShieldCheck className="w-4 h-4 text-[#22C55E] shrink-0" />
                 <span>Recommendation supports a long/buy bias. Perform individual target sizing.</span>
               </>
             ) : (
               <>
-                <ShieldAlert className="w-4 h-4 text-brand-danger shrink-0" />
+                <ShieldAlert className="w-4 h-4 text-[#EF4444] shrink-0" />
                 <span>Recommendation indicates avoidance or short bias due to operational/macro headwinds.</span>
               </>
             )}

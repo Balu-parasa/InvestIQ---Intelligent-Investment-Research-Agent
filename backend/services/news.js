@@ -16,13 +16,12 @@ const yahooFinance = new YahooFinance({
  */
 async function fetchCompanyNews(companyName) {
   const apiKey = process.env.NEWS_API_KEY;
-  
+
   // Try to fetch from NewsAPI if a key is provided
   if (apiKey && apiKey !== 'YOUR_NEWS_API_KEY_HERE' && apiKey.trim() !== '') {
     try {
       const url = `https://newsapi.org/v2/everything?q=${encodeURIComponent(companyName)}&pageSize=5&sortBy=relevance&language=en&apiKey=${apiKey}`;
-      console.log(`Querying NewsAPI for news about: "${companyName}"`);
-      
+
       const response = await fetch(url);
       if (response.ok) {
         const data = await response.json();
@@ -36,21 +35,18 @@ async function fetchCompanyNews(companyName) {
         }
       } else {
         const errorData = await response.json().catch(() => ({}));
-        console.warn(`NewsAPI failed with response code ${response.status}: ${errorData.message || response.statusText}. Falling back...`);
       }
     } catch (newsError) {
-      console.warn(`NewsAPI fetch encountered error: ${newsError.message}. Falling back to Yahoo Finance...`);
     }
   }
 
   // Fallback: Query Yahoo Finance Search News (does not require key)
-  console.log(`Using Yahoo Finance News fallback for: "${companyName}"`);
   try {
     const searchResults = await yahooFinance.search(companyName, { newsCount: 5 });
     if (searchResults.news && searchResults.news.length > 0) {
       return searchResults.news.map(item => {
         let dateStr = 'Recent';
-        
+
         if (item.providerPublishTime) {
           // Detect and parse date object, millisecond timestamp, or second timestamp
           let dateObj;
@@ -61,7 +57,7 @@ async function fetchCompanyNews(companyName) {
             // If UNIX seconds (e.g. 1712345678) vs milliseconds
             dateObj = new Date(ts < 1e11 ? ts * 1000 : ts);
           }
-          
+
           try {
             dateStr = dateObj.toISOString().slice(0, 10);
           } catch (e) {
@@ -78,7 +74,6 @@ async function fetchCompanyNews(companyName) {
       });
     }
   } catch (yfNewsError) {
-    console.error(`Yahoo Finance News fallback failed:`, yfNewsError.message);
     throw new Error(`Failed to retrieve latest news: ${yfNewsError.message}`);
   }
 

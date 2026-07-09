@@ -24,53 +24,53 @@ export default function ComparisonSummary({ comparison, company1, company2 }) {
   };
 
   return (
-    <div className="dashboard-card p-6 md:p-8">
-      <div className="flex flex-col lg:flex-row items-stretch justify-between gap-8 relative">
+    <div className="dashboard-card p-8 md:p-10 border-t-4 border-t-[#8B5CF6] shadow-[0_4px_12px_rgba(0,0,0,0.02)]">
+      <div className="flex flex-col lg:flex-row items-stretch justify-between gap-10 relative">
         
         {/* Left Column: Winner Callout */}
-        <div className="flex flex-col justify-center gap-4 text-center lg:text-left lg:w-1/3 shrink-0">
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-bg-base border border-border-base text-[10px] text-text-secondary font-semibold uppercase tracking-wider self-center lg:self-start">
-            <BrainCircuit className="w-3.5 h-3.5 text-brand-blue" />
+        <div className="flex flex-col justify-center gap-5 text-center lg:text-left lg:w-1/3 shrink-0">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F8F7F4] border border-border-base text-[10px] text-text-secondary font-bold uppercase tracking-wider self-center lg:self-start shadow-sm">
+            <BrainCircuit className="w-3.5 h-3.5 text-[#8B5CF6]" />
             AI Investment Verdict
           </div>
 
-          <div className="space-y-1">
+          <div className="space-y-2">
             <h3 className="text-[10px] font-bold text-text-secondary uppercase tracking-widest">
               Investment Winner
             </h3>
-            <div className="flex items-center justify-center lg:justify-start gap-2 pt-1">
-              <Trophy className="w-5 h-5 text-brand-success shrink-0" />
-              <h2 className="text-xl font-extrabold tracking-tight text-brand-success uppercase">
+            <div className="flex items-center justify-center lg:justify-start gap-2.5 pt-1.5">
+              <Trophy className="w-5 h-5 text-[#22C55E] shrink-0" />
+              <span className="bg-gradient-to-r from-[#8B5CF6] via-[#A855F7] to-[#EC4899] text-white text-xs px-3.5 py-1.5 rounded-lg font-bold uppercase tracking-wider shadow-sm">
                 {winner}
-              </h2>
+              </span>
             </div>
           </div>
 
           {/* Scores bar visual */}
-          <div className="space-y-3 pt-3 border-t border-border-base">
+          <div className="space-y-4 pt-4 border-t border-border-base">
             <div className="flex items-center gap-2 text-text-secondary justify-center lg:justify-start">
-              <BarChart3 className="w-3.5 h-3.5 text-brand-blue" />
+              <BarChart3 className="w-3.5 h-3.5 text-[#8B5CF6]" />
               <span className="text-[9px] font-bold uppercase tracking-wider">Comparison Score</span>
             </div>
             
-            <div className="space-y-2 text-left">
+            <div className="space-y-3 text-left">
               <div>
-                <div className="flex justify-between text-[10px] font-semibold text-text-secondary mb-1">
+                <div className="flex justify-between text-[10px] font-bold text-text-secondary mb-1">
                   <span>{c1.symbol}</span>
                   <span className="text-text-primary font-mono">{company1Score !== undefined ? `${company1Score}/100` : 'N/A'}</span>
                 </div>
-                <div className="w-full bg-bg-base border border-border-base h-1.5 rounded-full overflow-hidden">
-                  <div className="bg-brand-blue h-full" style={{ width: `${getPercent(company1Score)}%` }} />
+                <div className="w-full bg-[#F3F1EC] border border-border-base h-2 rounded-full overflow-hidden">
+                  <div className="bg-[#8B5CF6] h-full rounded-full" style={{ width: `${getPercent(company1Score)}%` }} />
                 </div>
               </div>
 
               <div>
-                <div className="flex justify-between text-[10px] font-semibold text-text-secondary mb-1">
+                <div className="flex justify-between text-[10px] font-bold text-text-secondary mb-1">
                   <span>{c2.symbol}</span>
                   <span className="text-text-primary font-mono">{company2Score !== undefined ? `${company2Score}/100` : 'N/A'}</span>
                 </div>
-                <div className="w-full bg-bg-base border border-border-base h-1.5 rounded-full overflow-hidden">
-                  <div className="bg-brand-blue h-full" style={{ width: `${getPercent(company2Score)}%` }} />
+                <div className="w-full bg-[#F3F1EC] border border-border-base h-2 rounded-full overflow-hidden">
+                  <div className="bg-[#8B5CF6] h-full rounded-full" style={{ width: `${getPercent(company2Score)}%` }} />
                 </div>
               </div>
             </div>
@@ -78,22 +78,27 @@ export default function ComparisonSummary({ comparison, company1, company2 }) {
         </div>
 
         {/* Right Column: Reasoning text box */}
-        <div className="flex-1 flex flex-col justify-between bg-bg-base border border-border-base rounded-xl p-5 space-y-4">
-          <div className="space-y-2">
+        <div className="flex-1 flex flex-col justify-between bg-[#F8F7F4]/50 border border-border-base rounded-2xl p-6 space-y-5">
+          <div className="space-y-3">
             <div className="flex items-center gap-2 text-text-secondary">
-              <FileText className="w-3.5 h-3.5 text-brand-blue" />
-              <span className="text-[10px] font-bold uppercase tracking-wider">AI Analysis Verdict Reason</span>
+              <FileText className="w-3.5 h-3.5 text-[#8B5CF6]" />
+              <span className="text-[10px] font-bold uppercase tracking-wider">Investment Reasoning</span>
             </div>
-            <p className="text-sm text-text-primary leading-relaxed">
+            <p className="text-xs md:text-sm text-text-primary leading-[1.85] font-normal">
               {reason}
             </p>
           </div>
 
-          <div className="pt-3 border-t border-border-base text-xs text-text-secondary space-y-1">
-            <span className="font-bold text-text-secondary/60 uppercase text-[9px] tracking-wider block">Executive Summary</span>
-            <p className="leading-relaxed text-text-secondary">
-              {summary}
-            </p>
+          <div className="pt-4 border-t border-border-base">
+            <div className="rounded-xl bg-[#8B5CF6]/5 border border-[#8B5CF6]/15 p-4 space-y-2">
+              <div className="flex items-center gap-2">
+                <BrainCircuit className="w-3.5 h-3.5 text-[#8B5CF6] shrink-0" />
+                <span className="font-bold text-[#8B5CF6] uppercase text-[9px] tracking-wider">Executive Summary</span>
+              </div>
+              <p className="text-xs leading-[1.75] text-text-primary font-medium">
+                {summary}
+              </p>
+            </div>
           </div>
         </div>
 

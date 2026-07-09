@@ -68,14 +68,14 @@ export default function Loading({ isDataReady, onFinished }) {
 
   return (
     <div className="flex flex-col items-center justify-center py-20 px-4">
-      <div className="max-w-md w-full dashboard-card p-8 flex flex-col items-center space-y-8">
+      <div className="max-w-md w-full dashboard-card p-8 flex flex-col items-center space-y-8 shadow-[0_4px_12px_rgba(0,0,0,0.015)]">
         
         {/* Minimal Circular Progress */}
         <div className="relative flex items-center justify-center w-32 h-32">
           <svg className="w-full h-full transform -rotate-90">
             {/* Background Ring */}
             <circle
-              stroke="#1F2937"
+              stroke="#E7E5E4"
               fill="transparent"
               strokeWidth={stroke}
               r={normalizedRadius}
@@ -84,7 +84,7 @@ export default function Loading({ isDataReady, onFinished }) {
             />
             {/* Animated Ring */}
             <motion.circle
-              stroke="#3B82F6"
+              stroke="#8B5CF6"
               fill="transparent"
               strokeWidth={stroke}
               strokeDasharray={circumference + ' ' + circumference}
@@ -113,7 +113,7 @@ export default function Loading({ isDataReady, onFinished }) {
               transition={{ duration: 0.15 }}
               className="text-text-primary text-sm font-medium tracking-wide flex items-center justify-center gap-2"
             >
-              <Loader2 className="w-4 h-4 text-brand-blue animate-spin" />
+              <Loader2 className="w-4 h-4 text-[#8B5CF6] animate-spin" />
               {STEPS[activeStep - 1]?.text}
             </motion.p>
           </AnimatePresence>
@@ -132,7 +132,7 @@ export default function Loading({ isDataReady, onFinished }) {
                   isCompleted 
                     ? 'text-text-primary font-medium' 
                     : isActive 
-                      ? 'text-brand-blue font-semibold' 
+                      ? 'text-[#8B5CF6] font-semibold' 
                       : 'text-text-secondary/60'
                 }`}
               >
@@ -143,22 +143,22 @@ export default function Loading({ isDataReady, onFinished }) {
                       animate={{ scale: 1 }}
                       transition={{ duration: 0.15 }}
                     >
-                      <CheckCircle2 className="w-4 h-4 text-brand-success" />
+                      <CheckCircle2 className="w-4.5 h-4.5 text-[#22C55E]" />
                     </motion.div>
                   ) : isActive ? (
-                    <Loader2 className="w-4 h-4 text-brand-blue animate-spin" />
+                    <Loader2 className="w-4 h-4 text-[#8B5CF6] animate-spin" />
                   ) : (
-                    <div className="w-4 h-4 rounded-full border border-border-base bg-bg-base" />
+                    <div className="w-4 h-4 rounded-full border border-border-base bg-[#F8F7F4]" />
                   )}
                   <span>{step.text.replace('...', '')}</span>
                 </div>
                 <div>
                   {isCompleted ? (
-                    <span className="text-[10px] text-brand-success font-semibold px-2 py-0.5 rounded bg-brand-success/10">Done</span>
+                    <span className="text-[9px] text-[#22C55E] font-bold px-2 py-0.5 rounded bg-[#22C55E]/5 border border-[#22C55E]/15">Done</span>
                   ) : isActive ? (
-                    <span className="text-[10px] text-brand-blue font-semibold animate-pulse">Running</span>
+                    <span className="text-[9px] text-[#8B5CF6] font-bold animate-pulse">Running</span>
                   ) : (
-                    <span className="text-[10px] text-text-secondary/40">Pending</span>
+                    <span className="text-[9px] text-text-secondary/40">Pending</span>
                   )}
                 </div>
               </div>

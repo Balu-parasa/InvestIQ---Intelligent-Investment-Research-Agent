@@ -162,18 +162,18 @@ export default function App() {
   return (
     <div className="min-h-screen relative font-sans">
       {/* Header / Navbar */}
-      <header className="border-b border-border-base bg-card-base sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-6 md:gap-12">
+      <header className="border-b border-border-base bg-white sticky top-0 z-50 shadow-[0_1px_3px_rgba(0,0,0,0.02),0_1px_2px_rgba(0,0,0,0.03)]">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 py-3.5 flex items-center justify-between">
+          <div className="flex items-center gap-8 md:gap-12">
             <div 
               onClick={handleLogoClick} 
-              className="flex items-center gap-2 cursor-pointer group shrink-0"
+              className="flex items-center gap-2.5 cursor-pointer group shrink-0"
             >
-              <div className="p-1.5 rounded-lg bg-brand-blue group-hover:bg-brand-blue/80 transition-colors duration-200">
+              <div className="p-2 rounded-xl bg-gradient-to-br from-[#8B5CF6] via-[#A855F7] to-[#EC4899] text-white flex items-center justify-center shadow-sm group-hover:opacity-95 transition-opacity duration-200">
                 <BrainCircuit className="w-4 h-4 text-white" />
               </div>
               <h1 className="text-lg font-bold tracking-tight text-text-primary">
-                Invest<span className="text-brand-blue">IQ</span>
+                Invest<span className="bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] bg-clip-text text-transparent font-extrabold">IQ</span>
               </h1>
             </div>
 
@@ -181,20 +181,20 @@ export default function App() {
             <nav className="flex items-center gap-6">
               <button
                 onClick={() => { handleReset(); navigateTo('/'); }}
-                className={`text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer ${
+                className={`text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer pb-1.5 ${
                   currentPath === '/' 
-                    ? 'text-brand-blue border-b-2 border-brand-blue pb-1' 
-                    : 'text-text-secondary hover:text-text-primary'
+                    ? 'text-[#8B5CF6] border-b-2 border-[#8B5CF6]' 
+                    : 'text-text-secondary hover:text-text-primary border-b-2 border-transparent'
                 }`}
               >
                 Analyze
               </button>
               <button
                 onClick={() => navigateTo('/compare')}
-                className={`text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer ${
+                className={`text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer pb-1.5 ${
                   currentPath === '/compare' 
-                    ? 'text-brand-blue border-b-2 border-brand-blue pb-1' 
-                    : 'text-text-secondary hover:text-text-primary'
+                    ? 'text-[#8B5CF6] border-b-2 border-[#8B5CF6]' 
+                    : 'text-text-secondary hover:text-text-primary border-b-2 border-transparent'
                 }`}
               >
                 Compare Companies
@@ -205,7 +205,7 @@ export default function App() {
           {currentPath === '/' && activeView === 'RESULTS' && (
             <button
               onClick={handleReset}
-              className="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold text-text-secondary hover:text-text-primary border border-border-base hover:border-brand-blue/40 hover:bg-bg-base rounded-lg transition-all"
+              className="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-[#6B7280] hover:text-[#111827] bg-white border border-border-base hover:border-[#8B5CF6]/40 rounded-lg shadow-sm transition-all"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               New Research
@@ -286,9 +286,9 @@ export default function App() {
                   {/* Reset Search back button */}
                   <button 
                     onClick={handleReset} 
-                    className="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-white transition-colors cursor-pointer group"
+                    className="inline-flex items-center gap-2 text-xs font-semibold text-text-secondary hover:text-[#8B5CF6] transition-colors cursor-pointer group"
                   >
-                    <ArrowLeft className="w-3.5 h-3.5 group-hover:translate-x-[-2px] transition-transform" />
+                    <ArrowLeft className="w-3.5 h-3.5 group-hover:translate-x-[-2px] transition-transform text-[#8B5CF6]" />
                     Back to Dashboard Search
                   </button>
 
@@ -305,7 +305,7 @@ export default function App() {
                     <div className="lg:col-span-2">
                       <div className="flex flex-col h-full justify-between gap-6">
                         <div className="space-y-4">
-                          <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest">Financial Health Indicators</h3>
+                          <h3 className="text-xs font-bold text-text-secondary uppercase tracking-widest">Financial Health Indicators</h3>
                           <Financials financials={analysisData.financials} />
                         </div>
                         {/* Section 4: SWOT Details */}

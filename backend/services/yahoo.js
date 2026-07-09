@@ -33,11 +33,8 @@ const aliases = {
  */
 async function fetchCompanyData(companyName) {
   try {
-    console.log(`Searching ticker symbol for query: "${companyName}"`);
     const searchTerm =
       aliases[companyName.trim().toLowerCase()] || companyName;
-
-    console.log(`Searching ticker symbol for query: "${searchTerm}"`);
 
     const searchResults = await yahooFinance.search(searchTerm, {
       newsCount: 1
@@ -98,7 +95,6 @@ async function fetchCompanyData(companyName) {
     }
 
     const symbol = quote.symbol;
-    console.log(`Resolved ticker symbol: "${symbol}" for "${companyName}"`);
 
     // Fetch full profile and statistics
     const summary = await yahooFinance.quoteSummary(symbol, {
@@ -148,7 +144,6 @@ async function fetchCompanyData(companyName) {
       financials: financialsData
     };
   } catch (error) {
-    console.error(`Error fetching Yahoo Finance data for "${companyName}":`, error.message);
     throw error;
   }
 }

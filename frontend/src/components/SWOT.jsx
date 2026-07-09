@@ -1,60 +1,88 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PlusCircle, MinusCircle, Lightbulb, AlertTriangle, ChevronDown, ChevronUp } from 'lucide-react';
+import { Check, AlertTriangle, ArrowUpRight, ChevronDown, ChevronUp, PlusCircle, MinusCircle, Lightbulb } from 'lucide-react';
 
-function SWOTCard({ title, items, icon: Icon, colorStyles }) {
-  const [isOpen, setIsOpen] = useState(false);
+function resolveItemText(item) {
+  if (!item) return '';
+  if (typeof item === 'object' && item.description) return item.description;
+  if (typeof item === 'object' && item.title) return item.title;
+  const str = String(item);
+  const colonIndex = str.indexOf(':');
+  if (colonIndex !== -1 && colonIndex < 35) {
+    return str.slice(colonIndex + 1).trim();
+  }
+  return str;
+}
+
+const SWOT_CONFIG = {
+  Strengths: {
+    HeaderIcon: PlusCircle,
+    headerColor: 'text-[#16A34A]',
+    renderIcon: () => <Check className="w-3.5 h-3.5 text-[#16A34A] shrink-0 mt-0.5" />,
+  },
+  Weaknesses: {
+    HeaderIcon: MinusCircle,
+    headerColor: 'text-[#D97706]',
+    renderIcon: () => (
+      <span className="w-3.5 h-3.5 flex items-center justify-center shrink-0 mt-0.5">
+        <span className="w-1.5 h-1.5 rounded-full bg-[#D97706] block" />
+      </span>
+    ),
+  },
+  Opportunities: {
+    HeaderIcon: Lightbulb,
+    headerColor: 'text-[#7C3AED]',
+    renderIcon: () => <ArrowUpRight className="w-3.5 h-3.5 text-[#7C3AED] shrink-0 mt-0.5" />,
+  },
+  Risks: {
+    HeaderIcon: AlertTriangle,
+    headerColor: 'text-[#DC2626]',
+    renderIcon: () => <AlertTriangle className="w-3.5 h-3.5 text-[#DC2626] shrink-0 mt-0.5" />,
+  },
+};
+
+function SWOTCard({ title, items }) {
+  const [isOpen, setIsOpen] = useState(true);
+  const config = SWOT_CONFIG[title] || SWOT_CONFIG.Strengths;
+  const { HeaderIcon } = config;
 
   return (
-    <div 
-      className={`dashboard-card transition-colors duration-200 overflow-hidden ${
-        isOpen ? 'border-border-base' : 'hover:border-brand-blue/30'
-      }`}
-    >
-      {/* Header section (Togglable) */}
+    <div className="dashboard-card overflow-hidden transition-all duration-200 hover:border-[#8B5CF6]/30">
+      {/* Collapsible Header */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between p-5 text-left cursor-pointer focus:outline-none"
+        className="w-full flex items-center justify-between px-5 py-4 text-left cursor-pointer focus:outline-none bg-white hover:bg-[#F8F7F4]/40 transition-colors"
       >
-        <div className="flex items-center gap-3">
-          <div className={`p-1.5 rounded bg-bg-base border border-border-base ${colorStyles.text}`}>
-            <Icon className="w-4 h-4" />
-          </div>
-          <div>
-            <h4 className="text-[9px] font-bold uppercase tracking-wider text-text-secondary">SWOT Category</h4>
-            <h3 className="text-sm font-semibold text-text-primary tracking-tight mt-0.5">{title}</h3>
-          </div>
+        <div className="flex items-center gap-2.5">
+          <HeaderIcon className={`w-4 h-4 ${config.headerColor}`} />
+          <h3 className="text-[13px] font-bold text-text-primary tracking-tight">{title}</h3>
         </div>
-        <div className="p-1 rounded bg-bg-base border border-border-base text-text-secondary">
-          {isOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
-        </div>
+        {isOpen
+          ? <ChevronUp className="w-3.5 h-3.5 text-text-secondary" />
+          : <ChevronDown className="w-3.5 h-3.5 text-text-secondary" />}
       </button>
 
-      {/* Expandable items section */}
+      {/* Bullet list */}
       <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.2, ease: 'easeOut' }}
-            className="border-t border-border-base bg-bg-base/40"
+            transition={{ duration: 0.14, ease: 'easeOut' }}
+            className="border-t border-border-base"
           >
-            <div className="p-5 space-y-4">
-              {items.map((item, idx) => (
-                <div key={idx} className="space-y-1 last:border-b-0 pb-3 last:pb-0 border-b border-border-base">
-                  <div className="flex items-center gap-2">
-                    <span className={`text-[9px] font-bold px-2 py-0.5 rounded ${colorStyles.badge} uppercase tracking-wider`}>
-                      {title.slice(0, -1)} {idx + 1}
-                    </span>
-                    <h5 className="text-xs font-semibold text-text-primary">{item.title}</h5>
-                  </div>
-                  <p className="text-xs text-text-secondary leading-relaxed pl-1">
-                    {item.description}
-                  </p>
-                </div>
-              ))}
-            </div>
+            <ul className="px-5 py-4 space-y-2">
+              {items.map((item, idx) => {
+                const text = resolveItemText(item);
+                return (
+                  <li key={idx} className="flex items-start gap-2.5">
+                    {config.renderIcon()}
+                    <span className="text-[14px] font-medium text-text-primary leading-snug">{text}</span>
+                  </li>
+                );
+              })}
+            </ul>
           </motion.div>
         )}
       </AnimatePresence>
@@ -66,56 +94,18 @@ export default function SWOT({ swot }) {
   if (!swot) return null;
 
   const categories = [
-    {
-      title: 'Strengths',
-      items: swot.strengths || [],
-      icon: PlusCircle,
-      colorStyles: {
-        text: 'text-brand-success',
-        badge: 'bg-brand-success/10 text-brand-success border border-brand-success/20',
-      }
-    },
-    {
-      title: 'Weaknesses',
-      items: swot.weaknesses || [],
-      icon: MinusCircle,
-      colorStyles: {
-        text: 'text-brand-warning',
-        badge: 'bg-brand-warning/10 text-brand-warning border border-brand-warning/20',
-      }
-    },
-    {
-      title: 'Opportunities',
-      items: swot.opportunities || [],
-      icon: Lightbulb,
-      colorStyles: {
-        text: 'text-brand-blue',
-        badge: 'bg-brand-blue/10 text-brand-blue border border-brand-blue/20',
-      }
-    },
-    {
-      title: 'Risks',
-      items: swot.risks || [],
-      icon: AlertTriangle,
-      colorStyles: {
-        text: 'text-brand-danger',
-        badge: 'bg-brand-danger/10 text-brand-danger border border-brand-danger/20',
-      }
-    }
+    { title: 'Strengths',     items: swot.strengths     || [] },
+    { title: 'Weaknesses',    items: swot.weaknesses    || [] },
+    { title: 'Opportunities', items: swot.opportunities || [] },
+    { title: 'Risks',         items: swot.risks         || [] },
   ];
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-3.5">
       <h3 className="text-xs font-bold text-text-secondary uppercase tracking-widest">AI Strategic SWOT Profile</h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 items-start">
         {categories.map((cat, idx) => (
-          <SWOTCard
-            key={idx}
-            title={cat.title}
-            items={cat.items}
-            icon={cat.icon}
-            colorStyles={cat.colorStyles}
-          />
+          <SWOTCard key={idx} title={cat.title} items={cat.items} />
         ))}
       </div>
     </div>

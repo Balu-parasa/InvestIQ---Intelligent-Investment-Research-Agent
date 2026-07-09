@@ -1,10 +1,9 @@
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { fetchCompanyData } = require('./services/yahoo');
 const { fetchCompanyNews } = require('./services/news');
-const { analyzeCompany, fetchCompanyProfileFromAI, compareCompanies } = require('./services/analyzer');
+const { analyzeCompany, compareCompanies } = require('./services/analyzer');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -17,8 +16,25 @@ app.use(cors({
 
 app.use(express.json());
 
+async function getYahooWithRetry(companyName, retries = 3) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      return await fetchCompanyData(companyName);
+    } catch (err) {
+      if (i === retries - 1) {
+        throw err;
+      }
+
+
+
+      await new Promise(resolve => setTimeout(resolve, 1500));
+    }
+  }
+}
+
 // Main analysis endpoint
 app.post('/api/analyze', async (req, res) => {
+
   const { company } = req.body;
 
   // Validate request parameters
@@ -27,16 +43,16 @@ app.post('/api/analyze', async (req, res) => {
   }
 
   const queryCompany = company.trim();
-  console.log(`Starting production analysis pipeline for: "${queryCompany}"`);
 
   try {
     // Step 1 & 2: Validate existence & fetch real company information from Yahoo Finance
     let companyProfile;
     try {
-      companyProfile = await fetchCompanyData(queryCompany);
+
+      companyProfile = await getYahooWithRetry(queryCompany);
+
     } catch (yfError) {
-      console.warn(`Yahoo Finance lookup failed for "${queryCompany}": ${yfError.message}`);
-      
+
       // If it is an explicit validation "not found" error, return 404
       if (yfError.message.includes("Company not found")) {
         return res.status(404).json({
@@ -44,31 +60,30 @@ app.post('/api/analyze', async (req, res) => {
           message: 'Company not found.'
         });
       }
-      
-      // Connection or network block fallback
-      console.log(`Yahoo Finance API connection blocked. Falling back to AI/Sandbox profiler...`);
-      companyProfile = await fetchCompanyProfileFromAI(queryCompany);
+
+      throw yfError;
     }
 
     // Step 3: Fetch recent company news using NewsAPI
     let companyNews;
     try {
+
       companyNews = await fetchCompanyNews(companyProfile.company.name);
+
     } catch (newsError) {
-      console.error(`NewsAPI fetch failed: ${newsError.message}`);
       throw new Error(`Failed to fetch latest news: ${newsError.message}`);
     }
 
     // Step 4: Run LangChain analysis with Gemini
     let aiAnalysis;
     try {
+
       aiAnalysis = await analyzeCompany(
         companyProfile.company,
         companyProfile.financials,
         companyNews
       );
     } catch (aiError) {
-      console.error(`AI analysis failed: ${aiError.message}`);
       throw new Error(`Failed to run AI analysis: ${aiError.message}`);
     }
 
@@ -80,12 +95,10 @@ app.post('/api/analyze', async (req, res) => {
       analysis: aiAnalysis
     };
 
-    console.log(`Successfully completed analysis pipeline for "${companyProfile.company.name}"`);
     return res.json(responsePayload);
 
   } catch (error) {
-    console.error(`Analysis pipeline failed for "${queryCompany}":`, error.message);
-    
+
     // Return standard error payload
     return res.status(500).json({
       success: false,
@@ -94,8 +107,10 @@ app.post('/api/analyze', async (req, res) => {
   }
 });
 
+
 // Company comparison endpoint
 app.post('/api/compare', async (req, res) => {
+
   const { company1, company2 } = req.body;
 
   if (!company1 || company1.trim() === '' || !company2 || company2.trim() === '') {
@@ -104,27 +119,23 @@ app.post('/api/compare', async (req, res) => {
 
   const c1 = company1.trim();
   const c2 = company2.trim();
-  console.log(`Starting comparison pipeline for: "${c1}" vs "${c2}"`);
 
   // Helper function to fetch and analyze a single company
   const getFullCompanyDetails = async (companyName) => {
     let companyProfile;
     try {
-      companyProfile = await fetchCompanyData(companyName);
+      companyProfile = await getYahooWithRetry(companyName);
     } catch (yfError) {
-      console.warn(`Yahoo Finance lookup failed for "${companyName}": ${yfError.message}`);
       if (yfError.message.includes("Company not found")) {
         throw new Error(`Company not found: "${companyName}"`);
       }
-      console.log(`Yahoo Finance API connection blocked. Falling back to AI/Sandbox profiler...`);
-      companyProfile = await fetchCompanyProfileFromAI(companyName);
+      throw yfError;
     }
 
     let companyNews;
     try {
       companyNews = await fetchCompanyNews(companyProfile.company.name);
     } catch (newsError) {
-      console.error(`NewsAPI fetch failed for "${companyProfile.company.name}": ${newsError.message}`);
       throw new Error(`Failed to fetch latest news: ${newsError.message}`);
     }
 
@@ -136,7 +147,6 @@ app.post('/api/compare', async (req, res) => {
         companyNews
       );
     } catch (aiError) {
-      console.error(`AI analysis failed for "${companyProfile.company.name}": ${aiError.message}`);
       throw new Error(`Failed to run AI analysis: ${aiError.message}`);
     }
 
@@ -149,7 +159,8 @@ app.post('/api/compare', async (req, res) => {
   };
 
   try {
-    // Run both pipelines concurrently
+
+
     const [company1Data, company2Data] = await Promise.all([
       getFullCompanyDetails(c1),
       getFullCompanyDetails(c2)
@@ -184,8 +195,7 @@ app.post('/api/compare', async (req, res) => {
     });
 
   } catch (error) {
-    console.error(`Comparison pipeline failed for "${c1}" vs "${c2}":`, error.message);
-    
+
     // Return standard error payload matching what the frontend expects
     if (error.message.includes("Company not found")) {
       return res.status(404).json({
@@ -208,8 +218,4 @@ app.get('/health', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`========================================`);
-  console.log(` InvestIQ AI Backend running on port ${PORT}`);
-  console.log(` Mode: Production AI Pipeline Active`);
-  console.log(`========================================`);
 });

@@ -8,29 +8,28 @@ export default function Overview({ overview }) {
     { label: 'Industry', value: industry, icon: Building2 },
     { label: 'CEO', value: ceo, icon: User },
     { label: 'Headquarters', value: headquarters, icon: MapPin },
-    { label: 'Founded', value: founded, icon: Calendar },
   ];
 
   return (
-    <div className="dashboard-card p-6 space-y-6 h-full flex flex-col justify-between">
-      
+    <div className="dashboard-card p-8 space-y-6 h-full flex flex-col justify-between shadow-[0_1px_3px_rgba(0,0,0,0.02)]">
+
       {/* Header section with Name and Symbol badge */}
       <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border-base pb-5 shrink-0">
-        <div>
+        <div className="space-y-1">
           <h2 className="text-xl md:text-2xl font-bold text-text-primary tracking-tight">{name}</h2>
           {website !== 'N/A' && (
-            <a 
-              href={website.startsWith('http') ? website : `https://${website}`} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="inline-flex items-center gap-1.5 text-xs text-text-secondary hover:text-brand-blue mt-1 transition-colors"
+            <a
+              href={website.startsWith('http') ? website : `https://${website}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-xs text-text-secondary hover:text-[#8B5CF6] transition-colors"
             >
               <Globe className="w-3.5 h-3.5" />
               {website.replace(/https?:\/\/(www\.)?/, '')}
             </a>
           )}
         </div>
-        <span className="px-2.5 py-1 text-xs font-semibold tracking-wider text-brand-blue bg-brand-blue/10 border border-brand-blue/20 rounded uppercase">
+        <span className="px-3 py-1.5 text-xs font-bold tracking-wider text-[#8B5CF6] bg-[#8B5CF6]/5 border border-[#8B5CF6]/15 rounded-lg uppercase shadow-sm">
           {symbol}
         </span>
       </div>
@@ -40,10 +39,10 @@ export default function Overview({ overview }) {
         {cardStats.map((stat, index) => {
           const Icon = stat.icon;
           return (
-            <div key={index} className="bg-bg-base border border-border-base rounded-lg p-3 hover:border-brand-blue/30 transition-colors">
-              <div className="flex items-center gap-1.5 text-text-secondary mb-1">
-                <Icon className="w-3.5 h-3.5 text-text-secondary" />
-                <span className="text-[10px] font-bold uppercase tracking-wider">{stat.label}</span>
+            <div key={index} className="bg-[#F8F7F4]/80 border border-border-base rounded-xl p-4 flex flex-col justify-between hover:border-[#8B5CF6]/30 transition-all duration-200 shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
+              <div className="flex items-center gap-2 text-text-secondary mb-1.5">
+                <Icon className="w-3.5 h-3.5 text-[#8B5CF6] shrink-0" />
+                <span className="text-[9px] font-bold uppercase tracking-wider">{stat.label}</span>
               </div>
               <p className="text-xs font-semibold text-text-primary truncate" title={stat.value}>{stat.value}</p>
             </div>

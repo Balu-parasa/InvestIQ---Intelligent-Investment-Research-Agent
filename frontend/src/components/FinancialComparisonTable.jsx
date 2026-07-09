@@ -128,12 +128,12 @@ export default function FinancialComparisonTable({ company1, company2 }) {
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="border-b border-border-base bg-bg-base/50">
+            <tr className="border-b border-border-base bg-[#F8F7F4]/65">
               <th className="p-4 text-[10px] font-bold text-text-secondary uppercase tracking-wider">Financial Indicator</th>
-              <th className="p-4 text-[10px] font-bold text-brand-blue uppercase tracking-wider text-right">
+              <th className="p-4 text-[10px] font-bold text-[#8B5CF6] uppercase tracking-wider text-right">
                 {c1.name} <span className="text-[9px] text-text-secondary ml-1">({c1.symbol})</span>
               </th>
-              <th className="p-4 text-[10px] font-bold text-brand-blue uppercase tracking-wider text-right">
+              <th className="p-4 text-[10px] font-bold text-[#8B5CF6] uppercase tracking-wider text-right">
                 {c2.name} <span className="text-[9px] text-text-secondary ml-1">({c2.symbol})</span>
               </th>
             </tr>
@@ -148,11 +148,11 @@ export default function FinancialComparisonTable({ company1, company2 }) {
                 const isNegative = lowerVal.startsWith('-') || lowerVal.includes('decline') || lowerVal.includes('pass');
 
                 if (isStronger) {
-                  return 'text-brand-success bg-brand-success/5 font-semibold';
+                  return 'text-[#22C55E] bg-[#22C55E]/5 font-bold';
                 }
 
                 if (isNegative && (rowKey === 'netIncome' || rowKey === 'revenueGrowth' || rowKey === 'recommendation')) {
-                  return 'text-brand-danger/80';
+                  return 'text-[#EF4444]';
                 }
 
                 return 'text-text-primary';
@@ -164,20 +164,20 @@ export default function FinancialComparisonTable({ company1, company2 }) {
                 
                 if (isStronger) {
                   if (rowKey === 'peRatio' || rowKey === 'riskLevel') {
-                    return <ArrowDownRight className="w-3.5 h-3.5 inline mr-1 text-brand-success" />;
+                    return <ArrowDownRight className="w-3.5 h-3.5 inline mr-1 text-[#22C55E]" />;
                   }
-                  return <ArrowUpRight className="w-3.5 h-3.5 inline mr-1 text-brand-success" />;
+                  return <ArrowUpRight className="w-3.5 h-3.5 inline mr-1 text-[#22C55E]" />;
                 }
                 
                 if (isNegative && (rowKey === 'netIncome' || rowKey === 'revenueGrowth')) {
-                  return <ArrowDownRight className="w-3.5 h-3.5 inline mr-1 text-brand-danger/80" />;
+                  return <ArrowDownRight className="w-3.5 h-3.5 inline mr-1 text-[#EF4444]" />;
                 }
 
                 return null;
               };
 
               return (
-                <tr key={row.key} className="hover:bg-bg-base/30 transition-colors">
+                <tr key={row.key} className="hover:bg-[#F8F7F4]/40 transition-colors">
                   <td className="p-4 text-xs font-semibold text-text-secondary">{row.label}</td>
                   <td className={`p-4 text-xs text-right ${getCellStyles(isC1Stronger, row.display1, row.key)}`}>
                     {renderIndicator(isC1Stronger, row.display1, row.key)}

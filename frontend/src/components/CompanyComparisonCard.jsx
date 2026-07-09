@@ -27,7 +27,7 @@ export default function CompanyComparisonCard({ company1, company2 }) {
     ];
 
     return (
-      <div className="dashboard-card p-6 flex flex-col justify-between h-full">
+      <div className="dashboard-card p-8 flex flex-col justify-between h-full shadow-[0_1px_3px_rgba(0,0,0,0.01)]">
         <div className="space-y-6">
           {/* Header */}
           <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border-base pb-5">
@@ -40,14 +40,14 @@ export default function CompanyComparisonCard({ company1, company2 }) {
                   href={website.startsWith('http') ? website : `https://${website}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs text-text-secondary hover:text-brand-blue transition-colors"
+                  className="inline-flex items-center gap-1.5 text-xs text-text-secondary hover:text-[#8B5CF6] transition-colors"
                 >
                   <Globe className="w-3.5 h-3.5" />
                   {website.replace(/https?:\/\/(www\.)?/, '')}
                 </a>
               )}
             </div>
-            <span className="px-2.5 py-1 text-xs font-semibold tracking-wider text-brand-blue bg-brand-blue/10 border border-brand-blue/20 rounded uppercase">
+            <span className="px-3 py-1.5 text-xs font-bold tracking-wider text-[#8B5CF6] bg-[#8B5CF6]/5 border border-[#8B5CF6]/15 rounded-lg uppercase shadow-sm">
               {symbol}
             </span>
           </div>
@@ -57,38 +57,40 @@ export default function CompanyComparisonCard({ company1, company2 }) {
             {metrics.map((m, idx) => {
               const Icon = m.icon;
               let textColor = 'text-text-primary';
-              if (m.highlight) textColor = 'text-brand-blue';
+              if (m.highlight) textColor = 'text-[#8B5CF6]';
               if (m.isRisk) {
                 const val = String(m.value).toLowerCase();
-                if (val.includes('low')) textColor = 'text-brand-success';
-                else if (val.includes('high')) textColor = 'text-brand-danger';
-                else if (val.includes('med') || val.includes('mod')) textColor = 'text-brand-warning';
+                if (val.includes('low')) textColor = 'text-[#22C55E]';
+                else if (val.includes('high')) textColor = 'text-[#EF4444]';
+                else if (val.includes('med') || val.includes('mod')) textColor = 'text-[#F59E0B]';
               }
               return (
-                <div key={idx} className="bg-bg-base border border-border-base rounded-lg p-3 hover:border-brand-blue/30 transition-colors">
+                <div key={idx} className="bg-[#F8F7F4]/80 border border-border-base rounded-xl p-4 hover:border-[#8B5CF6]/30 transition-all duration-200 shadow-[0_1px_2px_rgba(0,0,0,0.015)]">
                   <div className="flex items-center gap-1.5 text-text-secondary mb-1">
-                    <Icon className="w-3.5 h-3.5" />
+                    <Icon className="w-3.5 h-3.5 text-[#8B5CF6]/85" />
                     <span className="text-[9px] font-bold uppercase tracking-wider">{m.label}</span>
                   </div>
-                  <p className={`text-sm font-semibold tracking-wide ${textColor}`}>{m.value}</p>
+                  <p className={`text-xs font-bold tracking-wide ${textColor}`}>{m.value}</p>
                 </div>
               );
             })}
           </div>
 
           {/* Core Info details list */}
-          <div className="space-y-3.5 pt-2">
+          <div className="space-y-4 pt-2">
             <h3 className="text-[10px] font-bold text-text-secondary uppercase tracking-widest">
               Company Overview
             </h3>
-            <div className="space-y-2.5">
+            <div className="space-y-3">
               {details.map((detail, idx) => {
                 const Icon = detail.icon;
                 return (
                   <div key={idx} className="flex items-start gap-3 text-xs">
-                    <Icon className="w-4 h-4 text-text-secondary/60 shrink-0 mt-0.5" />
+                    <div className="p-1 rounded bg-[#F8F7F4] border border-border-base shrink-0 mt-0.5">
+                      <Icon className="w-3.5 h-3.5 text-[#6B7280]" />
+                    </div>
                     <div className="flex-1 min-w-0">
-                      <span className="text-text-secondary text-[9px] uppercase tracking-wider block">
+                      <span className="text-text-secondary text-[8px] font-bold uppercase tracking-wider block">
                         {detail.label}
                       </span>
                       {detail.isLink && detail.value !== 'N/A' ? (
@@ -96,7 +98,7 @@ export default function CompanyComparisonCard({ company1, company2 }) {
                           href={detail.value.startsWith('http') ? detail.value : `https://${detail.value}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-text-primary hover:text-brand-blue font-semibold line-clamp-1 break-all transition-colors"
+                          className="text-text-primary hover:text-[#8B5CF6] font-semibold line-clamp-1 break-all transition-colors"
                         >
                           {detail.value}
                         </a>
@@ -119,10 +121,10 @@ export default function CompanyComparisonCard({ company1, company2 }) {
             <Award className="w-4 h-4 text-text-secondary" />
             <span className="text-xs font-bold text-text-secondary uppercase tracking-wider">Verdict Opinion</span>
           </div>
-          <span className={`px-3 py-1.5 text-xs font-bold tracking-wider rounded uppercase ${
+          <span className={`px-3.5 py-1.5 text-xs font-bold tracking-wider rounded-lg uppercase shadow-sm ${
             isInvest
-              ? 'text-brand-success bg-brand-success/10 border border-brand-success/20'
-              : 'text-brand-danger bg-brand-danger/10 border border-brand-danger/20'
+              ? 'text-[#22C55E] bg-[#22C55E]/5 border border-[#22C55E]/15'
+              : 'text-[#EF4444] bg-[#EF4444]/5 border border-[#EF4444]/15'
           }`}>
             {recommendation}
           </span>

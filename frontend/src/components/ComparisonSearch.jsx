@@ -19,15 +19,15 @@ export default function ComparisonSearch({
   const isDisabled = !company1.trim() || !company2.trim() || isLoading;
 
   return (
-    <form onSubmit={handleSubmit} className="dashboard-card p-6 space-y-6">
+    <form onSubmit={handleSubmit} className="dashboard-card p-6 space-y-6 shadow-[0_1px_3px_rgba(0,0,0,0.015)]">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Company 1 Search Input */}
-        <div className="space-y-1.5">
+        <div className="space-y-2">
           <label htmlFor="company1-search" className="text-[10px] font-bold text-text-secondary uppercase tracking-wider block">
             Company 1
           </label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-text-secondary/60">
+            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-text-secondary/50">
               <Search className="w-4 h-4" />
             </div>
             <input
@@ -37,18 +37,18 @@ export default function ComparisonSearch({
               onChange={(e) => setCompany1(e.target.value)}
               placeholder="e.g. Apple or AAPL"
               disabled={isLoading}
-              className="w-full pl-9 pr-4 py-2 bg-bg-base border border-border-base focus:border-brand-blue focus:ring-0 outline-none rounded-lg text-sm text-text-primary placeholder-text-secondary/50 transition-colors"
+              className="w-full pl-10 pr-4 py-2.5 bg-[#F8F7F4]/80 border border-border-base focus:border-[#8B5CF6]/50 focus:ring-0 outline-none rounded-lg text-sm text-text-primary placeholder-text-secondary/40 transition-all disabled:opacity-50"
             />
           </div>
         </div>
 
         {/* Company 2 Search Input */}
-        <div className="space-y-1.5">
+        <div className="space-y-2">
           <label htmlFor="company2-search" className="text-[10px] font-bold text-text-secondary uppercase tracking-wider block">
             Company 2
           </label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-text-secondary/60">
+            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-text-secondary/50">
               <Search className="w-4 h-4" />
             </div>
             <input
@@ -58,7 +58,7 @@ export default function ComparisonSearch({
               onChange={(e) => setCompany2(e.target.value)}
               placeholder="e.g. Microsoft or MSFT"
               disabled={isLoading}
-              className="w-full pl-9 pr-4 py-2 bg-bg-base border border-border-base focus:border-brand-blue focus:ring-0 outline-none rounded-lg text-sm text-text-primary placeholder-text-secondary/50 transition-colors"
+              className="w-full pl-10 pr-4 py-2.5 bg-[#F8F7F4]/80 border border-border-base focus:border-[#8B5CF6]/50 focus:ring-0 outline-none rounded-lg text-sm text-text-primary placeholder-text-secondary/40 transition-all disabled:opacity-50"
             />
           </div>
         </div>
@@ -68,10 +68,10 @@ export default function ComparisonSearch({
         <button
           type="submit"
           disabled={isDisabled}
-          className={`px-5 py-2.5 rounded-lg text-xs font-semibold tracking-wider uppercase transition-colors cursor-pointer ${
+          className={`px-5 py-2.5 rounded-lg text-xs font-bold tracking-wider uppercase transition-all shadow-sm cursor-pointer disabled:cursor-not-allowed ${
             isDisabled
-              ? 'bg-border-base text-text-secondary/60 cursor-not-allowed border border-border-base'
-              : 'bg-brand-blue text-white hover:bg-brand-blue/90'
+              ? 'bg-[#E7E5E4] text-text-secondary/50 border border-border-base'
+              : 'bg-gradient-to-r from-[#8B5CF6] via-[#A855F7] to-[#EC4899] text-white hover:opacity-95'
           }`}
         >
           {isLoading ? 'Comparing...' : 'Compare'}

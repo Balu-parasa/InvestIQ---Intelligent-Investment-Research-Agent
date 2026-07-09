@@ -79,13 +79,13 @@ export default function CompareCompaniesPage() {
 
       {/* Empty State */}
       {!isLoading && !comparisonData && !error && (
-        <div className="pt-4">
-          <div className="dashboard-card p-8 md:p-12 text-center max-w-xl mx-auto space-y-4">
-            <div className="w-10 h-10 rounded bg-brand-blue/10 flex items-center justify-center text-brand-blue mx-auto">
+        <div className="pt-6">
+          <div className="dashboard-card p-8 md:p-12 text-center max-w-xl mx-auto space-y-4 shadow-[0_1px_3px_rgba(0,0,0,0.015)]">
+            <div className="w-12 h-12 rounded-xl bg-[#F8F7F4] border border-border-base flex items-center justify-center text-[#8B5CF6] mx-auto shadow-sm">
               <BrainCircuit className="w-5 h-5" />
             </div>
-            <p className="text-text-secondary text-sm">
-              Compare two publicly listed companies to receive an AI-powered investment comparison.
+            <p className="text-text-secondary text-xs leading-relaxed max-w-sm mx-auto">
+              Compare two publicly listed companies side-by-side to receive an AI-powered investment comparison.
             </p>
           </div>
         </div>
