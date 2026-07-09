@@ -1,12 +1,4 @@
 const yahooFinance = require('yahoo-finance2').default;
-
-// Suppress yahoo-finance2 validation warnings to prevent unnecessary throws
-yahooFinance.setGlobalConfig({
-  validation: {
-    logErrors: false,
-    logOptionsErrors: false
-  }
-});
 const aliases = {
   google: "Alphabet",
   alphabet: "Alphabet",
