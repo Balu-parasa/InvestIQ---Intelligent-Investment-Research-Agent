@@ -1,11 +1,10 @@
-const YahooFinance = require('yahoo-finance2').default;
+const yahooFinance = require('yahoo-finance2').default;
 
-// Instantiate Yahoo Finance with a browser User-Agent to bypass firewall blocks (Sophos)
-const yahooFinance = new YahooFinance({
-  fetchOptions: {
-    headers: {
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
-    }
+// Suppress yahoo-finance2 validation warnings to prevent unnecessary throws
+yahooFinance.setGlobalConfig({
+  validation: {
+    logErrors: false,
+    logOptionsErrors: false
   }
 });
 const aliases = {

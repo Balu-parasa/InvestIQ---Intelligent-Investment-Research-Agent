@@ -50,7 +50,17 @@ app.post('/api/analyze', async (req, res) => {
     try {
 
       console.log("STEP 1: Fetching Yahoo...");
-      companyProfile = await getYahooWithRetry(queryCompany);
+      try {
+        console.log("Fetching Yahoo...");
+
+        companyProfile = await getYahooWithRetry(queryCompany);
+
+        console.log("Yahoo Success");
+      } catch (e) {
+        console.error("YAHOO FAILED:");
+        console.error(e);
+        throw e;
+      }
       console.log("✅ Yahoo Success");
 
     } catch (yfError) {
@@ -106,10 +116,12 @@ app.post('/api/analyze', async (req, res) => {
   } catch (error) {
 
     // Return standard error payload
-    console.error("FULL ERROR:", error);
+    console.error("FULL ERROR:", error?.message || error);
+    console.error("STACK:", error?.stack);
     return res.status(500).json({
       success: false,
-      message: error.message || 'An error occurred during company analysis.'
+      message: error.message || 'An error occurred during company analysis.',
+      debug: process.env.NODE_ENV !== 'production' ? error.stack : undefined
     });
   }
 });
