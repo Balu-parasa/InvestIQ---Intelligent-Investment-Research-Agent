@@ -11,6 +11,8 @@ import Recommendation from './components/Recommendation';
 import Sources from './components/Sources';
 import CompareCompaniesPage from './components/CompareCompaniesPage';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
 export default function App() {
   const [activeView, setActiveView] = useState('SEARCH'); // 'SEARCH' | 'LOADING' | 'RESULTS'
   const [searchQuery, setSearchQuery] = useState('');
@@ -46,7 +48,7 @@ export default function App() {
     setActiveView('LOADING');
 
     try {
-      const response = await fetch('http://localhost:5000/api/analyze', {
+      const response = await fetch(`${API_BASE_URL}/api/analyze`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ company: query })

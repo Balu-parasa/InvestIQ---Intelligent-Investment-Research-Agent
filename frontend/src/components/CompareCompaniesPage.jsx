@@ -9,6 +9,8 @@ import ComparisonSummary from './ComparisonSummary';
 import ComparisonSkeleton from './ComparisonSkeleton';
 import ComparisonError from './ComparisonError';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
 export default function CompareCompaniesPage() {
   const [company1, setCompany1] = useState('');
   const [company2, setCompany2] = useState('');
@@ -24,7 +26,7 @@ export default function CompareCompaniesPage() {
     setComparisonData(null);
 
     try {
-      const response = await fetch('http://localhost:5000/api/compare', {
+      const response = await fetch(`${API_BASE_URL}/api/compare`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
