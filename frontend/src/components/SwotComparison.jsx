@@ -18,29 +18,29 @@ const SWOT_CONFIG = {
     title: 'Strengths',
     ItemIcon: Check,
     HeaderIcon: PlusCircle,
-    headerColor: 'text-[#16A34A]',
-    iconColor: 'text-[#16A34A]',
+    headerColor: 'text-[#4A6D55]',
+    iconColor: 'text-[#4A6D55]',
   },
   weaknesses: {
     title: 'Weaknesses',
     ItemIcon: AlertTriangle,
     HeaderIcon: MinusCircle,
-    headerColor: 'text-[#D97706]',
-    iconColor: 'text-[#D97706]',
+    headerColor: 'text-[#C29F68]',
+    iconColor: 'text-[#C29F68]',
   },
   opportunities: {
     title: 'Opportunities',
     ItemIcon: Rocket,
     HeaderIcon: Lightbulb,
-    headerColor: 'text-[#7C3AED]',
-    iconColor: 'text-[#7C3AED]',
+    headerColor: 'text-[#1E1C1A]',
+    iconColor: 'text-[#1E1C1A]',
   },
   risks: {
     title: 'Risks',
     ItemIcon: AlertTriangle,
     HeaderIcon: AlertTriangle,
-    headerColor: 'text-[#DC2626]',
-    iconColor: 'text-[#DC2626]',
+    headerColor: 'text-[#B05B54]',
+    iconColor: 'text-[#B05B54]',
   },
 };
 
@@ -58,7 +58,7 @@ function BulletList({ items, configKey }) {
         return (
           <li key={index} className="flex items-start gap-2">
             <ItemIcon className={`w-3 h-3 shrink-0 mt-0.5 ${iconColor}`} />
-            <span style={{ fontSize: '14px' }} className="text-text-primary font-medium leading-snug">
+            <span className="text-xs text-text-primary font-medium leading-relaxed">
               {text}
             </span>
           </li>

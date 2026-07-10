@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrainCircuit } from 'lucide-react';
 import ComparisonHeader from './ComparisonHeader';
 import ComparisonSearch from './ComparisonSearch';
@@ -11,12 +11,24 @@ import ComparisonError from './ComparisonError';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 
+const isMisconfigured = 
+  typeof window !== 'undefined' && 
+  window.location.hostname !== 'localhost' && 
+  window.location.hostname !== '127.0.0.1' && 
+  (!API_BASE_URL || API_BASE_URL.includes('localhost'));
+
 export default function CompareCompaniesPage() {
   const [company1, setCompany1] = useState('');
   const [company2, setCompany2] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [comparisonData, setComparisonData] = useState(null);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (isMisconfigured) {
+      setError("Configuration Error: The app is deployed on Railway, but VITE_API_URL is pointing to localhost. Please add the VITE_API_URL variable in your Railway dashboard pointing to your backend's public URL.");
+    }
+  }, []);
 
   const handleCompare = async () => {
     if (!company1.trim() || !company2.trim()) return;
@@ -83,7 +95,7 @@ export default function CompareCompaniesPage() {
       {!isLoading && !comparisonData && !error && (
         <div className="pt-6">
           <div className="dashboard-card p-8 md:p-12 text-center max-w-xl mx-auto space-y-4 shadow-[0_1px_3px_rgba(0,0,0,0.015)]">
-            <div className="w-12 h-12 rounded-xl bg-[#F8F7F4] border border-border-base flex items-center justify-center text-[#8B5CF6] mx-auto shadow-sm">
+            <div className="w-12 h-12 rounded-xl bg-[#FCFAF7] border border-border-base flex items-center justify-center text-[#1E1C1A] mx-auto shadow-sm">
               <BrainCircuit className="w-5 h-5" />
             </div>
             <p className="text-text-secondary text-xs leading-relaxed max-w-sm mx-auto">

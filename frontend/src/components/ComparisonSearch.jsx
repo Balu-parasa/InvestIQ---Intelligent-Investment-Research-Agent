@@ -37,7 +37,7 @@ export default function ComparisonSearch({
               onChange={(e) => setCompany1(e.target.value)}
               placeholder="e.g. Apple or AAPL"
               disabled={isLoading}
-              className="w-full pl-10 pr-4 py-2.5 bg-[#F8F7F4]/80 border border-border-base focus:border-[#8B5CF6]/50 focus:ring-0 outline-none rounded-lg text-sm text-text-primary placeholder-text-secondary/40 transition-all disabled:opacity-50"
+              className="w-full pl-10 pr-4 py-2.5 bg-[#FCFAF7] border border-border-base focus:border-[#1E1C1A]/50 focus:ring-0 outline-none rounded-lg text-sm text-text-primary placeholder-text-secondary/40 transition-all disabled:opacity-50"
             />
           </div>
         </div>
@@ -58,7 +58,7 @@ export default function ComparisonSearch({
               onChange={(e) => setCompany2(e.target.value)}
               placeholder="e.g. Microsoft or MSFT"
               disabled={isLoading}
-              className="w-full pl-10 pr-4 py-2.5 bg-[#F8F7F4]/80 border border-border-base focus:border-[#8B5CF6]/50 focus:ring-0 outline-none rounded-lg text-sm text-text-primary placeholder-text-secondary/40 transition-all disabled:opacity-50"
+              className="w-full pl-10 pr-4 py-2.5 bg-[#FCFAF7] border border-border-base focus:border-[#1E1C1A]/50 focus:ring-0 outline-none rounded-lg text-sm text-text-primary placeholder-text-secondary/40 transition-all disabled:opacity-50"
             />
           </div>
         </div>
@@ -70,8 +70,8 @@ export default function ComparisonSearch({
           disabled={isDisabled}
           className={`px-5 py-2.5 rounded-lg text-xs font-bold tracking-wider uppercase transition-all shadow-sm cursor-pointer disabled:cursor-not-allowed ${
             isDisabled
-              ? 'bg-[#E7E5E4] text-text-secondary/50 border border-border-base'
-              : 'bg-gradient-to-r from-[#8B5CF6] via-[#A855F7] to-[#EC4899] text-white hover:opacity-95'
+              ? 'bg-border-base text-text-secondary/50 border border-border-base'
+              : 'bg-[#1E1C1A] text-white hover:bg-[#2D2A27]'
           }`}
         >
           {isLoading ? 'Comparing...' : 'Compare'}

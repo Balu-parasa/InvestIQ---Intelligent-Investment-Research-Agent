@@ -5,8 +5,8 @@ export default function ComparisonError({ error }) {
   if (!error) return null;
 
   return (
-    <div className="dashboard-card p-5 max-w-xl mx-auto flex items-start gap-3.5 border-[#EF4444]/20 shadow-[0_1px_2px_rgba(0,0,0,0.015)] bg-white">
-      <div className="p-2 bg-[#EF4444]/5 border border-[#EF4444]/15 rounded-lg text-[#EF4444] shrink-0">
+    <div className="dashboard-card p-5 max-w-xl mx-auto flex items-start gap-3.5 border-[#B05B54]/20 shadow-[0_1px_2px_rgba(0,0,0,0.015)] bg-white">
+      <div className="p-2 bg-[#B05B54]/5 border border-[#B05B54]/15 rounded-lg text-[#B05B54] shrink-0">
         <AlertTriangle className="w-4 h-4" />
       </div>
       <div className="space-y-1.5">

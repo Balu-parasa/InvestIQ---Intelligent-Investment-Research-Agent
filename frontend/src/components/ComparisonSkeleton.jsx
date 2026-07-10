@@ -19,7 +19,7 @@ export default function ComparisonSkeleton() {
             {/* Quick Metrics Grid */}
             <div className="grid grid-cols-2 gap-4">
               {[1, 2, 3, 4].map((j) => (
-                <div key={j} className="bg-[#F8F7F4]/80 border border-border-base rounded-xl p-4 space-y-2">
+                <div key={j} className="bg-[#FCFAF7] border border-border-base rounded-xl p-4 space-y-2">
                   <div className="h-2 w-1/2 skeleton-shimmer rounded" />
                   <div className="h-4 w-3/4 skeleton-shimmer rounded" />
                 </div>
@@ -106,7 +106,7 @@ export default function ComparisonSkeleton() {
               </div>
             </div>
           </div>
-          <div className="flex-1 bg-[#F8F7F4]/50 border border-border-base rounded-xl p-6 space-y-4">
+          <div className="flex-1 bg-[#FCFAF7] border border-border-base rounded-xl p-6 space-y-4">
             <div className="space-y-2">
               <div className="h-3.5 w-1/4 skeleton-shimmer rounded" />
               <div className="h-4 w-full skeleton-shimmer rounded" />

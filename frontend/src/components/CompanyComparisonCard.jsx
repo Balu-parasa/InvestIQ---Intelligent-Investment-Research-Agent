@@ -40,14 +40,14 @@ export default function CompanyComparisonCard({ company1, company2 }) {
                   href={website.startsWith('http') ? website : `https://${website}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs text-text-secondary hover:text-[#8B5CF6] transition-colors"
+                  className="inline-flex items-center gap-1.5 text-xs text-text-secondary hover:text-[#1E1C1A] transition-colors"
                 >
                   <Globe className="w-3.5 h-3.5" />
                   {website.replace(/https?:\/\/(www\.)?/, '')}
                 </a>
               )}
             </div>
-            <span className="px-3 py-1.5 text-xs font-bold tracking-wider text-[#8B5CF6] bg-[#8B5CF6]/5 border border-[#8B5CF6]/15 rounded-lg uppercase shadow-sm">
+            <span className="px-3 py-1.5 text-xs font-bold tracking-wider text-[#1E1C1A] bg-[#EAE5DB]/70 border border-[#E5E0DA] rounded-lg uppercase shadow-sm">
               {symbol}
             </span>
           </div>
@@ -57,17 +57,17 @@ export default function CompanyComparisonCard({ company1, company2 }) {
             {metrics.map((m, idx) => {
               const Icon = m.icon;
               let textColor = 'text-text-primary';
-              if (m.highlight) textColor = 'text-[#8B5CF6]';
+              if (m.highlight) textColor = 'text-[#1E1C1A]';
               if (m.isRisk) {
                 const val = String(m.value).toLowerCase();
-                if (val.includes('low')) textColor = 'text-[#22C55E]';
-                else if (val.includes('high')) textColor = 'text-[#EF4444]';
-                else if (val.includes('med') || val.includes('mod')) textColor = 'text-[#F59E0B]';
+                if (val.includes('low')) textColor = 'text-[#4A6D55]';
+                else if (val.includes('high')) textColor = 'text-[#B05B54]';
+                else if (val.includes('med') || val.includes('mod')) textColor = 'text-[#C29F68]';
               }
               return (
-                <div key={idx} className="bg-[#F8F7F4]/80 border border-border-base rounded-xl p-4 hover:border-[#8B5CF6]/30 transition-all duration-200 shadow-[0_1px_2px_rgba(0,0,0,0.015)]">
+                <div key={idx} className="bg-[#FCFAF7] border border-border-base rounded-xl p-4 hover:border-[#1E1C1A]/20 transition-all duration-200 shadow-[0_1px_2px_rgba(0,0,0,0.015)]">
                   <div className="flex items-center gap-1.5 text-text-secondary mb-1">
-                    <Icon className="w-3.5 h-3.5 text-[#8B5CF6]/85" />
+                    <Icon className="w-3.5 h-3.5 text-[#1E1C1A]/85" />
                     <span className="text-[9px] font-bold uppercase tracking-wider">{m.label}</span>
                   </div>
                   <p className={`text-xs font-bold tracking-wide ${textColor}`}>{m.value}</p>
@@ -86,8 +86,8 @@ export default function CompanyComparisonCard({ company1, company2 }) {
                 const Icon = detail.icon;
                 return (
                   <div key={idx} className="flex items-start gap-3 text-xs">
-                    <div className="p-1 rounded bg-[#F8F7F4] border border-border-base shrink-0 mt-0.5">
-                      <Icon className="w-3.5 h-3.5 text-[#6B7280]" />
+                    <div className="p-1 rounded bg-[#FCFAF7] border border-border-base shrink-0 mt-0.5">
+                      <Icon className="w-3.5 h-3.5 text-[#7E7A75]" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <span className="text-text-secondary text-[8px] font-bold uppercase tracking-wider block">
@@ -98,7 +98,7 @@ export default function CompanyComparisonCard({ company1, company2 }) {
                           href={detail.value.startsWith('http') ? detail.value : `https://${detail.value}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-text-primary hover:text-[#8B5CF6] font-semibold line-clamp-1 break-all transition-colors"
+                          className="text-text-primary hover:text-[#1E1C1A] font-semibold line-clamp-1 break-all transition-colors"
                         >
                           {detail.value}
                         </a>
@@ -123,8 +123,8 @@ export default function CompanyComparisonCard({ company1, company2 }) {
           </div>
           <span className={`px-3.5 py-1.5 text-xs font-bold tracking-wider rounded-lg uppercase shadow-sm ${
             isInvest
-              ? 'text-[#22C55E] bg-[#22C55E]/5 border border-[#22C55E]/15'
-              : 'text-[#EF4444] bg-[#EF4444]/5 border border-[#EF4444]/15'
+              ? 'text-[#4A6D55] bg-[#4A6D55]/5 border border-[#4A6D55]/15'
+              : 'text-[#B05B54] bg-[#B05B54]/5 border border-[#B05B54]/15'
           }`}>
             {recommendation}
           </span>

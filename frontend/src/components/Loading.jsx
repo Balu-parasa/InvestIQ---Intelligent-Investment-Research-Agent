@@ -75,7 +75,7 @@ export default function Loading({ isDataReady, onFinished }) {
           <svg className="w-full h-full transform -rotate-90">
             {/* Background Ring */}
             <circle
-              stroke="#E7E5E4"
+              stroke="#EAE5DB"
               fill="transparent"
               strokeWidth={stroke}
               r={normalizedRadius}
@@ -84,7 +84,7 @@ export default function Loading({ isDataReady, onFinished }) {
             />
             {/* Animated Ring */}
             <motion.circle
-              stroke="#8B5CF6"
+              stroke="#1E1C1A"
               fill="transparent"
               strokeWidth={stroke}
               strokeDasharray={circumference + ' ' + circumference}
@@ -113,7 +113,7 @@ export default function Loading({ isDataReady, onFinished }) {
               transition={{ duration: 0.15 }}
               className="text-text-primary text-sm font-medium tracking-wide flex items-center justify-center gap-2"
             >
-              <Loader2 className="w-4 h-4 text-[#8B5CF6] animate-spin" />
+              <Loader2 className="w-4 h-4 text-[#1E1C1A] animate-spin" />
               {STEPS[activeStep - 1]?.text}
             </motion.p>
           </AnimatePresence>
@@ -132,7 +132,7 @@ export default function Loading({ isDataReady, onFinished }) {
                   isCompleted 
                     ? 'text-text-primary font-medium' 
                     : isActive 
-                      ? 'text-[#8B5CF6] font-semibold' 
+                      ? 'text-[#1E1C1A] font-semibold' 
                       : 'text-text-secondary/60'
                 }`}
               >
@@ -143,20 +143,20 @@ export default function Loading({ isDataReady, onFinished }) {
                       animate={{ scale: 1 }}
                       transition={{ duration: 0.15 }}
                     >
-                      <CheckCircle2 className="w-4.5 h-4.5 text-[#22C55E]" />
+                      <CheckCircle2 className="w-4.5 h-4.5 text-[#4A6D55]" />
                     </motion.div>
                   ) : isActive ? (
-                    <Loader2 className="w-4 h-4 text-[#8B5CF6] animate-spin" />
+                    <Loader2 className="w-4 h-4 text-[#1E1C1A] animate-spin" />
                   ) : (
-                    <div className="w-4 h-4 rounded-full border border-border-base bg-[#F8F7F4]" />
+                    <div className="w-4 h-4 rounded-full border border-border-base bg-[#FCFAF7]" />
                   )}
                   <span>{step.text.replace('...', '')}</span>
                 </div>
                 <div>
                   {isCompleted ? (
-                    <span className="text-[9px] text-[#22C55E] font-bold px-2 py-0.5 rounded bg-[#22C55E]/5 border border-[#22C55E]/15">Done</span>
+                    <span className="text-[9px] text-[#4A6D55] font-bold px-2 py-0.5 rounded bg-[#4A6D55]/5 border border-[#4A6D55]/15">Done</span>
                   ) : isActive ? (
-                    <span className="text-[9px] text-[#8B5CF6] font-bold animate-pulse">Running</span>
+                    <span className="text-[9px] text-[#1E1C1A] font-bold animate-pulse">Running</span>
                   ) : (
                     <span className="text-[9px] text-text-secondary/40">Pending</span>
                   )}

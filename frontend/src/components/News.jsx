@@ -6,12 +6,12 @@ export default function News({ news }) {
   const getSentimentStyles = (sentiment) => {
     switch (sentiment?.toLowerCase()) {
       case 'positive':
-        return 'bg-[#22C55E]/5 border-[#22C55E]/15 text-[#22C55E]';
+        return 'bg-[#4A6D55]/5 border-[#4A6D55]/15 text-[#4A6D55]';
       case 'negative':
-        return 'bg-[#EF4444]/5 border-[#EF4444]/15 text-[#EF4444]';
+        return 'bg-[#B05B54]/5 border-[#B05B54]/15 text-[#B05B54]';
       case 'neutral':
       default:
-        return 'bg-[#F8F7F4] border-border-base text-text-secondary';
+        return 'bg-[#FCFAF7] border-border-base text-text-secondary';
     }
   };
 
@@ -37,7 +37,7 @@ export default function News({ news }) {
             href={item.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="dashboard-card p-6 flex flex-col justify-between hover:border-[#8B5CF6]/30 transition-all duration-200 group shadow-[0_1px_3px_rgba(0,0,0,0.01),0_1px_2px_rgba(0,0,0,0.02)]"
+            className="dashboard-card p-6 flex flex-col justify-between hover:border-[#1E1C1A]/20 transition-all duration-200 group shadow-[0_1px_3px_rgba(0,0,0,0.01),0_1px_2px_rgba(0,0,0,0.02)]"
           >
             <div className="space-y-3">
               <div className="flex items-center justify-between gap-2">
@@ -46,7 +46,7 @@ export default function News({ news }) {
                 </span>
               </div>
               
-              <h4 className="text-sm font-bold text-text-primary group-hover:text-[#8B5CF6] transition-colors leading-snug">
+              <h4 className="text-sm font-bold text-text-primary group-hover:text-[#1E1C1A] transition-colors leading-snug">
                 {item.headline}
               </h4>
             </div>
@@ -60,7 +60,7 @@ export default function News({ news }) {
                     <span>{item.publishedDate}</span>
                   </div>
                 </div>
-                <span className="flex items-center gap-0.5 text-[#8B5CF6] font-bold uppercase tracking-wider group-hover:translate-x-[2px] transition-transform duration-200 text-[9px]">
+                <span className="flex items-center gap-0.5 text-[#1E1C1A] font-bold uppercase tracking-wider group-hover:translate-x-[2px] transition-transform duration-200 text-[9px]">
                   Read Article
                   <ExternalLink className="w-3 h-3 ml-0.5" />
                 </span>

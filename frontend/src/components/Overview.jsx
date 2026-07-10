@@ -22,14 +22,14 @@ export default function Overview({ overview }) {
               href={website.startsWith('http') ? website : `https://${website}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-xs text-text-secondary hover:text-[#8B5CF6] transition-colors"
+              className="inline-flex items-center gap-1.5 text-xs text-text-secondary hover:text-[#1E1C1A] transition-colors"
             >
               <Globe className="w-3.5 h-3.5" />
               {website.replace(/https?:\/\/(www\.)?/, '')}
             </a>
           )}
         </div>
-        <span className="px-3 py-1.5 text-xs font-bold tracking-wider text-[#8B5CF6] bg-[#8B5CF6]/5 border border-[#8B5CF6]/15 rounded-lg uppercase shadow-sm">
+        <span className="px-3 py-1.5 text-xs font-bold tracking-wider text-[#1E1C1A] bg-[#EAE5DB]/70 border border-[#E5E0DA] rounded-lg uppercase shadow-sm">
           {symbol}
         </span>
       </div>
@@ -39,9 +39,9 @@ export default function Overview({ overview }) {
         {cardStats.map((stat, index) => {
           const Icon = stat.icon;
           return (
-            <div key={index} className="bg-[#F8F7F4]/80 border border-border-base rounded-xl p-4 flex flex-col justify-between hover:border-[#8B5CF6]/30 transition-all duration-200 shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
+            <div key={index} className="bg-[#FCFAF7] border border-border-base rounded-xl p-4 flex flex-col justify-between hover:border-[#1E1C1A]/20 transition-all duration-200 shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
               <div className="flex items-center gap-2 text-text-secondary mb-1.5">
-                <Icon className="w-3.5 h-3.5 text-[#8B5CF6] shrink-0" />
+                <Icon className="w-3.5 h-3.5 text-[#1E1C1A] shrink-0" />
                 <span className="text-[9px] font-bold uppercase tracking-wider">{stat.label}</span>
               </div>
               <p className="text-xs font-semibold text-text-primary truncate" title={stat.value}>{stat.value}</p>

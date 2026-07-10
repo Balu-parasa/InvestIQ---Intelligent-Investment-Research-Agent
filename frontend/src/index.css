@@ -3,19 +3,19 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg-base: #F8F7F4;
-  --color-bg-secondary: #F3F1EC;
+  --color-bg-base: #F5F2EB;
+  --color-bg-secondary: #FCFAF7;
   --color-card-base: #FFFFFF;
-  --color-border-base: #E7E5E4;
+  --color-border-base: #E5E0DA;
   
-  --color-brand-blue: #8B5CF6;
-  --color-brand-purple: #A855F7;
-  --color-brand-success: #22C55E;
-  --color-brand-warning: #F59E0B;
-  --color-brand-danger: #EF4444;
+  --color-brand-blue: #1E1C1A;
+  --color-brand-purple: #1E1C1A;
+  --color-brand-success: #4A6D55;
+  --color-brand-warning: #C29F68;
+  --color-brand-danger: #B05B54;
   
-  --color-text-primary: #111827;
-  --color-text-secondary: #6B7280;
+  --color-text-primary: #1E1C1A;
+  --color-text-secondary: #7E7A75;
   
   --font-sans: 'Inter', 'sans-serif';
   
@@ -29,7 +29,7 @@
 
 @layer base {
   body {
-    background: linear-gradient(180deg, #F8F7F4, #F3F1EC);
+    background: linear-gradient(180deg, #F5F2EB, #ECE7DE);
     color: var(--color-text-primary);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
@@ -61,21 +61,21 @@
 .dashboard-card {
   background-color: var(--color-card-base);
   border: 1px solid var(--color-border-base);
-  border-radius: 16px;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.02);
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.02), 0 1px 3px rgba(0, 0, 0, 0.015);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .dashboard-card:hover {
-  border-color: rgba(139, 92, 246, 0.3);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+  border-color: #D3CBC1;
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.03), 0 2px 6px rgba(0, 0, 0, 0.02);
 }
 
 /* Inputs styling */
 .dashboard-input {
   background-color: var(--color-card-base);
   border: 1px solid var(--color-border-base);
-  border-radius: 8px;
+  border-radius: 12px;
   color: var(--color-text-primary);
   padding: 0.75rem 1rem;
   font-size: 0.875rem;
@@ -83,18 +83,18 @@
 }
 
 .dashboard-input:focus {
-  border-color: var(--color-brand-blue);
+  border-color: #1E1C1A;
   outline: none;
-  box-shadow: 0 0 0 1px var(--color-brand-blue);
+  box-shadow: 0 0 0 1px #1E1C1A;
 }
 
 /* Shimmer Loading Skeleton */
 .skeleton-shimmer {
   background: linear-gradient(
     90deg,
-    #F3F1EC 25%,
-    #E7E5E4 37%,
-    #F3F1EC 63%
+    #F6F3EE 25%,
+    #EAE5DB 37%,
+    #F6F3EE 63%
   );
   background-size: 400% 100%;
   animation: skeleton-loading 1.4s ease infinite;

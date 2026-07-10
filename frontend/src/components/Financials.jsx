@@ -39,45 +39,45 @@ export default function Financials({ financials }) {
       title: 'Market Cap',
       value: formatCurrency(marketCap),
       icon: Scale,
-      iconColor: 'text-[#8B5CF6]',
+      iconColor: 'text-[#1E1C1A]',
       valueColor: 'text-text-primary',
-      borderColor: 'border-t-2 border-[#8B5CF6]',
+      borderColor: 'border-t-2 border-[#1E1C1A]',
       description: 'Total market value'
     },
     {
       title: 'Total Revenue',
       value: formatCurrency(revenue),
       icon: DollarSign,
-      iconColor: 'text-[#8B5CF6]',
+      iconColor: 'text-[#1E1C1A]',
       valueColor: 'text-text-primary',
-      borderColor: 'border-t-2 border-[#8B5CF6]',
+      borderColor: 'border-t-2 border-[#1E1C1A]',
       description: 'Gross top-line (TTM)'
     },
     {
       title: 'Net Income',
       value: formatCurrency(netIncome),
       icon: Heart,
-      iconColor: isIncomePositive ? 'text-[#22C55E]' : 'text-[#EF4444]',
-      valueColor: isIncomePositive ? 'text-[#22C55E]' : 'text-[#EF4444]',
-      borderColor: isIncomePositive ? 'border-t-2 border-[#22C55E]' : 'border-t-2 border-[#EF4444]',
+      iconColor: isIncomePositive ? 'text-[#4A6D55]' : 'text-[#B05B54]',
+      valueColor: isIncomePositive ? 'text-[#4A6D55]' : 'text-[#B05B54]',
+      borderColor: isIncomePositive ? 'border-t-2 border-[#4A6D55]' : 'border-t-2 border-[#B05B54]',
       description: 'Net bottom-line profits'
     },
     {
       title: 'P/E Ratio',
       value: peRatio ? peRatio.toFixed(2) : 'N/A',
       icon: BarChart3,
-      iconColor: 'text-[#A855F7]',
+      iconColor: 'text-[#1E1C1A]',
       valueColor: 'text-text-primary',
-      borderColor: 'border-t-2 border-[#A855F7]',
+      borderColor: 'border-t-2 border-[#1E1C1A]',
       description: 'Earnings multiple'
     },
     {
       title: 'Revenue Growth',
       value: formatPercent(revenueGrowth),
       icon: TrendingUp,
-      iconColor: isGrowthPositive ? 'text-[#22C55E]' : 'text-[#EF4444]',
-      valueColor: isGrowthPositive ? 'text-[#22C55E]' : 'text-[#EF4444]',
-      borderColor: isGrowthPositive ? 'border-t-2 border-[#22C55E]' : 'border-t-2 border-[#EF4444]',
+      iconColor: isGrowthPositive ? 'text-[#4A6D55]' : 'text-[#B05B54]',
+      valueColor: isGrowthPositive ? 'text-[#4A6D55]' : 'text-[#B05B54]',
+      borderColor: isGrowthPositive ? 'border-t-2 border-[#4A6D55]' : 'border-t-2 border-[#B05B54]',
       description: 'Year-over-year change'
     }
   ];
@@ -94,7 +94,7 @@ export default function Financials({ financials }) {
             <div className="space-y-4">
               <div className="flex items-start justify-between gap-1">
                 <span className="text-[9px] text-text-secondary font-bold uppercase tracking-wider leading-tight">{card.title}</span>
-                <div className="shrink-0 p-1.5 rounded-lg bg-[#F8F7F4] border border-border-base">
+                <div className="shrink-0 p-1.5 rounded-lg bg-[#FCFAF7] border border-border-base">
                   <Icon className={`w-3.5 h-3.5 ${card.iconColor}`} />
                 </div>
               </div>

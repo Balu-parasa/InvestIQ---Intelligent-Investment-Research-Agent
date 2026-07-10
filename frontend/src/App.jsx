@@ -13,6 +13,12 @@ import CompareCompaniesPage from './components/CompareCompaniesPage';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 
+const isMisconfigured = 
+  typeof window !== 'undefined' && 
+  window.location.hostname !== 'localhost' && 
+  window.location.hostname !== '127.0.0.1' && 
+  (!API_BASE_URL || API_BASE_URL.includes('localhost'));
+
 export default function App() {
   const [activeView, setActiveView] = useState('SEARCH'); // 'SEARCH' | 'LOADING' | 'RESULTS'
   const [searchQuery, setSearchQuery] = useState('');
@@ -23,6 +29,9 @@ export default function App() {
 
   // Sync route on popstate (browser back/forward button clicks)
   useEffect(() => {
+    if (isMisconfigured) {
+      setError("Configuration Error: The app is deployed on Railway, but VITE_API_URL is pointing to localhost. Please add the VITE_API_URL variable in your Railway dashboard pointing to your backend's public URL, then redeploy the frontend.");
+    }
     const handlePopState = () => {
       setCurrentPath(window.location.pathname);
     };
@@ -171,11 +180,11 @@ export default function App() {
               onClick={handleLogoClick} 
               className="flex items-center gap-2.5 cursor-pointer group shrink-0"
             >
-              <div className="p-2 rounded-xl bg-gradient-to-br from-[#8B5CF6] via-[#A855F7] to-[#EC4899] text-white flex items-center justify-center shadow-sm group-hover:opacity-95 transition-opacity duration-200">
+              <div className="p-2 rounded-xl bg-[#1E1C1A] text-white flex items-center justify-center shadow-sm group-hover:opacity-95 transition-opacity duration-200">
                 <BrainCircuit className="w-4 h-4 text-white" />
               </div>
               <h1 className="text-lg font-bold tracking-tight text-text-primary">
-                Invest<span className="bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] bg-clip-text text-transparent font-extrabold">IQ</span>
+                Invest<span className="text-[#1E1C1A] font-extrabold ml-0.5">IQ</span>
               </h1>
             </div>
 
@@ -185,7 +194,7 @@ export default function App() {
                 onClick={() => { handleReset(); navigateTo('/'); }}
                 className={`text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer pb-1.5 ${
                   currentPath === '/' 
-                    ? 'text-[#8B5CF6] border-b-2 border-[#8B5CF6]' 
+                    ? 'text-[#1E1C1A] border-b-2 border-[#1E1C1A]' 
                     : 'text-text-secondary hover:text-text-primary border-b-2 border-transparent'
                 }`}
               >
@@ -195,7 +204,7 @@ export default function App() {
                 onClick={() => navigateTo('/compare')}
                 className={`text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer pb-1.5 ${
                   currentPath === '/compare' 
-                    ? 'text-[#8B5CF6] border-b-2 border-[#8B5CF6]' 
+                    ? 'text-[#1E1C1A] border-b-2 border-[#1E1C1A]' 
                     : 'text-text-secondary hover:text-text-primary border-b-2 border-transparent'
                 }`}
               >
@@ -207,7 +216,7 @@ export default function App() {
           {currentPath === '/' && activeView === 'RESULTS' && (
             <button
               onClick={handleReset}
-              className="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-[#6B7280] hover:text-[#111827] bg-white border border-border-base hover:border-[#8B5CF6]/40 rounded-lg shadow-sm transition-all"
+              className="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-[#7E7A75] hover:text-[#1E1C1A] bg-white border border-border-base hover:border-[#1E1C1A]/40 rounded-lg shadow-sm transition-all"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               New Research
@@ -288,9 +297,9 @@ export default function App() {
                   {/* Reset Search back button */}
                   <button 
                     onClick={handleReset} 
-                    className="inline-flex items-center gap-2 text-xs font-semibold text-text-secondary hover:text-[#8B5CF6] transition-colors cursor-pointer group"
+                    className="inline-flex items-center gap-2 text-xs font-semibold text-text-secondary hover:text-[#1E1C1A] transition-colors cursor-pointer group"
                   >
-                    <ArrowLeft className="w-3.5 h-3.5 group-hover:translate-x-[-2px] transition-transform text-[#8B5CF6]" />
+                    <ArrowLeft className="w-3.5 h-3.5 group-hover:translate-x-[-2px] transition-transform text-[#1E1C1A]" />
                     Back to Dashboard Search
                   </button>
 

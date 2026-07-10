@@ -38,8 +38,8 @@ export default function Recommendation({ recommendation }) {
 
   return (
     <div className={`dashboard-card p-6 md:p-8 border-t-4 ${
-      isInvest ? 'border-t-[#8B5CF6]' : 'border-t-[#EF4444]'
-    } shadow-[0_4px_12px_rgba(0,0,0,0.02)]`}>
+      isInvest ? 'border-t-[#4A6D55]' : 'border-t-[#B05B54]'
+    } shadow-[0_4px_24px_rgba(0,0,0,0.02),0_1px_3px_rgba(0,0,0,0.015)]`}>
       <div className="flex flex-col lg:flex-row items-stretch justify-between gap-8 relative">
         
         {/* Left Column: Decision Callout & Score */}
@@ -52,7 +52,7 @@ export default function Recommendation({ recommendation }) {
                 cx="48"
                 cy="48"
                 r={radius}
-                stroke="#E7E5E4"
+                stroke="#EAE5DB"
                 strokeWidth={strokeWidth}
                 fill="transparent"
               />
@@ -60,7 +60,7 @@ export default function Recommendation({ recommendation }) {
                 cx="48"
                 cy="48"
                 r={radius}
-                stroke={isInvest ? '#8B5CF6' : '#EF4444'}
+                stroke={isInvest ? '#4A6D55' : '#B05B54'}
                 strokeWidth={strokeWidth}
                 strokeDasharray={circumference}
                 initial={{ strokeDashoffset: circumference }}
@@ -88,8 +88,8 @@ export default function Recommendation({ recommendation }) {
  
           {/* Decision text badges */}
           <div className="space-y-2 shrink-0">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#F8F7F4] border border-border-base text-[9px] text-text-secondary font-bold uppercase tracking-wider">
-              <Award className="w-3.5 h-3.5 text-[#8B5CF6]" />
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#FCFAF7] border border-border-base text-[9px] text-text-secondary font-bold uppercase tracking-wider">
+              <Award className="w-3.5 h-3.5 text-[#1E1C1A]" />
               Agent Opinion
             </div>
             
@@ -98,7 +98,9 @@ export default function Recommendation({ recommendation }) {
             </h3>
             
             <div className="pt-0.5">
-              <span className="bg-gradient-to-r from-[#8B5CF6] via-[#A855F7] to-[#EC4899] text-white text-xs px-3.5 py-1.5 rounded-lg font-bold uppercase tracking-wider shadow-sm">
+              <span className={`text-white text-xs px-3.5 py-1.5 rounded-lg font-bold uppercase tracking-wider shadow-sm ${
+                isInvest ? 'bg-[#4A6D55]' : 'bg-[#B05B54]'
+              }`}>
                 {decision}
               </span>
             </div>
@@ -106,10 +108,10 @@ export default function Recommendation({ recommendation }) {
         </div>
 
         {/* Right Column: Reasoning text box */}
-        <div className="flex-1 bg-[#F8F7F4]/50 border border-border-base rounded-xl p-6 flex flex-col justify-between space-y-4 max-w-3xl">
+        <div className="flex-1 bg-[#FCFAF7] border border-border-base rounded-xl p-6 flex flex-col justify-between space-y-4 max-w-3xl">
           <div>
             <div className="flex items-center gap-2 text-text-secondary mb-3">
-              <FileText className="w-3.5 h-3.5 text-[#8B5CF6]" />
+              <FileText className="w-3.5 h-3.5 text-[#1E1C1A]" />
               <span className="text-[10px] font-bold uppercase tracking-wider">Investment Reasoning</span>
             </div>
             
@@ -121,12 +123,12 @@ export default function Recommendation({ recommendation }) {
           <div className="flex items-center gap-2 pt-3 border-t border-border-base text-xs text-text-secondary">
             {isInvest ? (
               <>
-                <ShieldCheck className="w-4 h-4 text-[#22C55E] shrink-0" />
+                <ShieldCheck className="w-4 h-4 text-[#4A6D55] shrink-0" />
                 <span>Recommendation supports a long/buy bias. Perform individual target sizing.</span>
               </>
             ) : (
               <>
-                <ShieldAlert className="w-4 h-4 text-[#EF4444] shrink-0" />
+                <ShieldAlert className="w-4 h-4 text-[#B05B54] shrink-0" />
                 <span>Recommendation indicates avoidance or short bias due to operational/macro headwinds.</span>
               </>
             )}

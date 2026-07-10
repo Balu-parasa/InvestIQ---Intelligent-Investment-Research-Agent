@@ -42,7 +42,7 @@ export default function Hero({ onSearch }) {
             transition={{ duration: 0.4 }}
             className="text-4xl md:text-5xl font-bold tracking-tight text-text-primary"
           >
-            Invest<span className="bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] bg-clip-text text-transparent font-extrabold">IQ</span>
+            Invest<span className="text-[#1E1C1A] font-extrabold ml-0.5">IQ</span>
           </motion.h1>
 
           <motion.p 
@@ -63,7 +63,7 @@ export default function Hero({ onSearch }) {
           onSubmit={handleSubmit}
           className="relative max-w-xl mx-auto w-full"
         >
-          <div className="flex items-center bg-white border border-border-base focus-within:border-[#8B5CF6]/50 rounded-xl p-1.5 pl-3.5 transition-all shadow-[0_4px_12px_rgba(0,0,0,0.03),0_1px_3px_rgba(0,0,0,0.02)]">
+          <div className="flex items-center bg-white border border-border-base focus-within:border-[#1E1C1A]/50 rounded-xl p-1.5 pl-3.5 transition-all shadow-[0_4px_12px_rgba(0,0,0,0.03),0_1px_3px_rgba(0,0,0,0.02)]">
             <Search className="w-4 h-4 text-text-secondary shrink-0" />
             <input
               type="text"
@@ -75,7 +75,7 @@ export default function Hero({ onSearch }) {
             <button
               type="submit"
               disabled={!query.trim()}
-              className="px-4 py-2 bg-gradient-to-r from-[#8B5CF6] via-[#A855F7] to-[#EC4899] hover:opacity-95 disabled:bg-none disabled:bg-border-base disabled:text-text-secondary/50 text-white rounded-lg text-xs font-semibold tracking-wide flex items-center gap-1.5 transition-all cursor-pointer shadow-sm disabled:cursor-not-allowed"
+              className="px-4 py-2 bg-[#1E1C1A] hover:bg-[#2D2A27] disabled:bg-border-base disabled:text-text-secondary/50 text-white rounded-lg text-xs font-semibold tracking-wide flex items-center gap-1.5 transition-all cursor-pointer shadow-sm disabled:cursor-not-allowed"
             >
               <TrendingUp className="w-3.5 h-3.5" />
               Analyze Company
@@ -90,12 +90,12 @@ export default function Hero({ onSearch }) {
           transition={{ duration: 0.3, delay: 0.3 }}
           className="flex flex-wrap items-center justify-center gap-2 pt-4 text-xs text-text-secondary"
         >
-          <span className="font-medium text-[#6B7280]">Popular Searches:</span>
+          <span className="font-medium text-text-secondary">Popular Searches:</span>
           {SUGGESTIONS.map((item) => (
             <button
               key={item.symbol}
               onClick={() => onSearch(item.name)}
-              className="px-3.5 py-1.5 rounded-full bg-white border border-border-base text-text-secondary hover:text-[#8B5CF6] hover:bg-[#8B5CF6]/5 hover:border-[#8B5CF6]/30 transition-all cursor-pointer shadow-[0_1px_2px_rgba(0,0,0,0.02)]"
+              className="px-3.5 py-1.5 rounded-full bg-[#EAE5DB]/70 border border-transparent text-[#1E1C1A] hover:bg-[#E0DAD0] transition-all cursor-pointer shadow-[0_1px_2px_rgba(0,0,0,0.015)] font-medium"
             >
               {item.name} ({item.symbol})
             </button>
