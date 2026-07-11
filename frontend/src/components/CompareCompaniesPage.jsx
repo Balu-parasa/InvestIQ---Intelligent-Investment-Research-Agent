@@ -26,7 +26,7 @@ export default function CompareCompaniesPage() {
 
   useEffect(() => {
     if (isMisconfigured) {
-      setError("Configuration Error: The app is deployed on Railway, but VITE_API_URL is pointing to localhost. Please add the VITE_API_URL variable in your Railway dashboard pointing to your backend's public URL.");
+      setError("Configuration Error: The app is deployed on Vercel, but VITE_API_URL is pointing to localhost. Please add the VITE_API_URL environment variable in your Vercel dashboard pointing to your backend's Render public URL.");
     }
   }, []);
 

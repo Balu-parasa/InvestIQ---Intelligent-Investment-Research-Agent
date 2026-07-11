@@ -1,0 +1,18 @@
+services:
+  # Backend Web Service
+  - type: web
+    name: investiq-backend
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: PORT
+        value: 5000
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: NEWS_API_KEY
+        sync: false

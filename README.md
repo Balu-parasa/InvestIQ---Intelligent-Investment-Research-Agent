@@ -304,6 +304,42 @@ Add screenshots here after completing the project.
 
 ---
 
+# 🌐 Deployment Guide (Render + Vercel)
+
+This application is configured for full-stack cloud deployment, hosting the **React Frontend on Vercel** and the **Node.js Backend on Render**.
+
+### 1. Deploy Backend to Render
+1. Log in to the [Render Dashboard](https://dashboard.render.com/).
+2. Click **New** (top-right button) -> **Web Service**.
+3. Link your Git repository.
+4. Configure the Web Service:
+   - **Name**: `investiq-backend`
+   - **Runtime**: `Node`
+   - **Root Directory**: `backend`
+   - **Build Command**: `npm install`
+   - **Start Command**: `node server.js`
+   - **Instance Type**: `Free`
+5. Go to the **Environment** tab and add the environment variables:
+   - `GEMINI_API_KEY`: (Your Google Gemini API Key)
+   - `NEWS_API_KEY`: (Your News API Key, optional if not using customized news endpoint)
+   - `PORT`: `5000`
+6. Click **Create Web Service**.
+7. Once deployed, copy your backend's public Render URL (e.g. `https://investiq-backend.onrender.com`).
+
+*Note:* Alternatively, you can use Render Blueprints to automatically set this up via the provided `render.yaml` file.
+
+### 2. Connect Vercel Frontend
+1. Log in to your [Vercel Dashboard](https://vercel.com/).
+2. Select your **InvestIQ** frontend project.
+3. Navigate to **Settings** -> **Environment Variables**.
+4. Create/Edit the following environment variable:
+   - **Key**: `VITE_API_URL`
+   - **Value**: `https://investiq-backend.onrender.com` (Use your actual Render backend URL without a trailing slash)
+5. Save the variable.
+6. Go to the **Deployments** tab on Vercel, select your latest deployment, click the three dots, and click **Redeploy** to build the application with the new API target.
+
+---
+
 # 🎯 Learning Outcomes
 
 This project demonstrates practical knowledge of:

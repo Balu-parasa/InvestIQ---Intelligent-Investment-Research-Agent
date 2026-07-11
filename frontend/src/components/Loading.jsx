@@ -17,7 +17,7 @@ export default function Loading({ isDataReady, onFinished }) {
   // Smoothly increment progress
   useEffect(() => {
     let interval;
-    
+
     if (!isDataReady) {
       // Simulate progress up to 90% slowly
       interval = setInterval(() => {
@@ -69,7 +69,7 @@ export default function Loading({ isDataReady, onFinished }) {
   return (
     <div className="flex flex-col items-center justify-center py-20 px-4">
       <div className="max-w-md w-full dashboard-card p-8 flex flex-col items-center space-y-8 shadow-[0_4px_12px_rgba(0,0,0,0.015)]">
-        
+
         {/* Minimal Circular Progress */}
         <div className="relative flex items-center justify-center w-32 h-32">
           <svg className="w-full h-full transform -rotate-90">
@@ -126,15 +126,14 @@ export default function Loading({ isDataReady, onFinished }) {
             const isActive = progress >= step.range[0] && progress <= step.range[1];
 
             return (
-              <div 
-                key={step.id} 
-                className={`flex items-center justify-between text-xs transition-colors duration-200 ${
-                  isCompleted 
-                    ? 'text-text-primary font-medium' 
-                    : isActive 
-                      ? 'text-[#1E1C1A] font-semibold' 
+              <div
+                key={step.id}
+                className={`flex items-center justify-between text-xs transition-colors duration-200 ${isCompleted
+                    ? 'text-text-primary font-medium'
+                    : isActive
+                      ? 'text-[#1E1C1A] font-semibold'
                       : 'text-text-secondary/60'
-                }`}
+                  }`}
               >
                 <div className="flex items-center gap-3">
                   {isCompleted ? (
