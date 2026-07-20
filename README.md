@@ -1,7 +1,7 @@
 # 📈 InvestIQ – AI-Powered Investment Research Dashboard
 
 <p align="center">
-  <img src="/frontend/public/Dashboard.png" width="100%">
+  <img src="/frontend/public/dashboard.png" width="100%">
 </p>
 
 <div align="center">
