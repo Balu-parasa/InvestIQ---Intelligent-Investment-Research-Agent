@@ -42,6 +42,22 @@ Unlike traditional dashboards that only display financial metrics, InvestIQ expl
 - Risk Assessment
 - Investment Horizon
 
+---
+
+## ⚖️ Company Comparison
+
+Compare two companies side-by-side including:
+
+- Company Overview
+- Financial Metrics
+- SWOT Comparison
+- AI Investment Verdict
+- Executive Summary
+- Overall Investment Scores
+- Confidence Scores
+- Risk Levels
+- Investment Horizon
+- AI Winner Selection
 
 ---
 
